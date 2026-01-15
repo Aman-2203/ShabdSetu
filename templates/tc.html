@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms & Conditions - ShabdSetu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #ffffff;
+            --primary-light: #e5e5e5;
+            --secondary: #1a1a1a;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-purple: #a78bfa;
+            --accent-amber: #fbbf24;
+            --accent-red: #f87171;
+            --gray: #a1a1aa;
+            --gray-light: #71717a;
+            --light: #ffffff;
+            --border: #27272a;
+            --background: #0a0a0a;
+            --card-bg: #18181b;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 6px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.5), 0 10px 20px rgba(0, 0, 0, 0.4);
+            --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="light"] {
+            --primary: #000000;
+            --primary-light: #1a1a1a;
+            --secondary: #ffffff;
+            --gray: #666666;
+            --gray-light: #999999;
+            --border: #e5e5e5;
+            --background: #fafafa;
+            --card-bg: #ffffff;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06), 0 2px 6px rgba(0, 0, 0, 0.03);
+            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.08), 0 10px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--background);
+            min-height: 100vh;
+            padding: 1rem;
+            padding-top: 6rem;
+            color: var(--primary);
+            letter-spacing: -0.01em;
+            line-height: 1.6;
+            transition: background 0.3s var(--ease-smooth), color 0.3s var(--ease-smooth);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s var(--ease-smooth);
+        }
+
+        [data-theme="light"] .header {
+            background: rgba(250, 250, 250, 0.95);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: var(--primary);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1.125rem;
+            font-weight: 700;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .logo-icon svg {
+            width: 20px;
+            height: 20px;
+            color: white;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 101;
+        }
+
+        .mobile-toggle svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            border: 2px solid var(--border);
+            color: var(--primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s var(--ease-smooth);
+            z-index: 101;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1) rotate(15deg);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent-blue);
+        }
+
+        .theme-toggle svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .theme-toggle .sun-icon { display: none; }
+        [data-theme="light"] .theme-toggle .moon-icon { display: none; }
+        [data-theme="light"] .theme-toggle .sun-icon { display: block; }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInDown 0.8s var(--ease-smooth);
+        }
+
+        .hero h1 {
+            font-family: 'DM Sans', sans-serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -0.04em;
+            color: var(--primary);
+            line-height: 1.1;
+        }
+
+        .hero h1::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+            border-radius: 2px;
+            margin: 1rem auto 0;
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 2vw, 1.125rem);
+            color: var(--gray);
+            font-weight: 400;
+        }
+
+        .content-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(8px);
+            border-radius: 20px;
+            padding: clamp(2rem, 4vw, 3rem);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border);
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.6s var(--ease-smooth);
+        }
+
+        .last-updated {
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.9375rem;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: var(--background);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .section {
+            margin-bottom: 2.5rem;
+        }
+
+        .section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-family: 'DM Sans', sans-serif;
+            font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: var(--accent-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .section-icon svg {
+            width: 18px;
+            height: 18px;
+            color: white;
+        }
+
+        .section-icon.danger {
+            background: var(--accent-red);
+        }
+
+        .section-icon.warning {
+            background: var(--accent-amber);
+        }
+
+        .section-icon.info {
+            background: var(--accent-green);
+        }
+
+        .subsection {
+            margin-bottom: 1.5rem;
+        }
+
+        .subsection-title {
+            font-weight: 600;
+            font-size: 1.125rem;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .terms-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .terms-list > li {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 1rem;
+            color: var(--gray);
+            line-height: 1.7;
+        }
+
+        .terms-list > li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.5rem;
+            width: 6px;
+            height: 6px;
+            background: var(--accent-blue);
+            border-radius: 50%;
+        }
+
+        .sub-list {
+            list-style: none;
+            padding-left: 1.5rem;
+            margin-top: 0.75rem;
+        }
+
+        .sub-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--gray-light);
+        }
+
+        .sub-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent-purple);
+            font-weight: 600;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), transparent);
+            border-left: 4px solid var(--accent-blue);
+            padding: 1.25rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-box.danger {
+            background: linear-gradient(135deg, rgba(248, 113, 113, 0.1), transparent);
+            border-left-color: var(--accent-red);
+        }
+
+        .highlight-box.warning {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), transparent);
+            border-left-color: var(--accent-amber);
+        }
+
+        .highlight-box p {
+            margin: 0;
+            color: var(--gray);
+        }
+
+        .footer {
+            background: var(--card-bg);
+            border-top: 1px solid var(--border);
+            padding: 2rem 1rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul li a {
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 0.8125rem;
+            transition: color 0.2s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: var(--accent-blue);
+        }
+
+        .footer-bottom {
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .footer p {
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+                padding-top: 5rem;
+            }
+
+            .content-card {
+                padding: 1.5rem;
+            }
+
+            .terms-list > li {
+                padding-left: 1.5rem;
+            }
+
+            .theme-toggle {
+                top: 0.75rem;
+                right: 4rem;
+                width: 44px;
+                height: 44px;
+            }
+        }
+
+        @media (max-width: 1023px) {
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: var(--card-bg);
+                border-bottom: 1px solid var(--border);
+                flex-direction: column;
+                gap: 0;
+                padding: 1rem;
+                display: none;
+                box-shadow: var(--shadow-lg);
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .nav-link {
+                padding: 0.75rem;
+                width: 100%;
+                text-align: left;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="/" class="logo">
+                <div class="logo-icon">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                </div>
+                <span>ShabdSetu</span>
+            </a>
+
+            <nav>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="features" class="nav-link">Features</a></li>
+                    <li><a href="pricing" class="nav-link">Pricing</a></li>
+                    <li><a href="tool" class="nav-link">Tool</a></li>
+                    <li><a href="contactus" class="nav-link">Contact us</a></li>
+                </ul>
+            </nav>
+
+            <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <button class="theme-toggle" id="themeToggle" title="Toggle Theme">
+        <svg class="moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+        <svg class="sun-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+    </button>
+
+    <div class="container">
+        <div class="hero">
+            <h1>Terms & Conditions</h1>
+            <p>Acceptable Use Policy for ShabdSetu Services</p>
+        </div>
+
+        <div class="last-updated">
+            <strong>Last Updated:</strong> January 10, 2026
+        </div>
+
+        <div class="content-card">
+            <div class="highlight-box danger">
+                <p><strong>Important Notice:</strong> By using ShabdSetu's services, you agree to comply with these terms and conditions. Violation of these policies will result in your document processing being cancelled and your content being returned without processing.</p>
+            </div>
+
+            <!-- Section 1: Prohibited Illegal Activities -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon danger">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                        </svg>
+                    </span>
+                    Prohibited Illegal and Dangerous Activities
+                </h2>
+                
+                <p style="color: var(--gray); margin-bottom: 1.5rem;">Do not engage in dangerous or illegal activities, or otherwise violate applicable law or regulations. This includes generating or distributing content that:</p>
+
+                <ul class="terms-list">
+                    <li>
+                        <strong>Relates to child exploitation or abuse:</strong>
+                        <ul class="sub-list">
+                            <li>Any content involving the abuse, exploitation, or endangerment of minors</li>
+                            <li>Materials depicting, promoting, or facilitating harm to children</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Facilitates violent extremism or terrorism:</strong>
+                        <ul class="sub-list">
+                            <li>Content promoting terrorist organizations or extremist ideologies</li>
+                            <li>Instructions or encouragement for violent extremist acts</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Facilitates non-consensual intimate imagery:</strong>
+                        <ul class="sub-list">
+                            <li>Sharing or distributing private intimate images without consent</li>
+                            <li>Creating or manipulating intimate content without authorization</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Facilitates self-harm:</strong>
+                        <ul class="sub-list">
+                            <li>Content encouraging suicide or self-injury</li>
+                            <li>Instructions or methods for self-harm activities</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Facilitates illegal activities or violations of law:</strong>
+                        <ul class="sub-list">
+                            <li>Instructions for synthesizing or accessing illegal substances or weapons</li>
+                            <li>Guidance on obtaining regulated goods or services illegally</li>
+                            <li>Methods to circumvent legal restrictions or regulations</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Violates rights of others:</strong>
+                        <ul class="sub-list">
+                            <li>Using personal data or biometric information without legally-required consent</li>
+                            <li>Infringing on intellectual property rights or copyrights</li>
+                            <li>Unauthorized use of proprietary or confidential information</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Tracks or monitors people without consent:</strong>
+                        <ul class="sub-list">
+                            <li>Surveillance activities without proper authorization</li>
+                            <li>Stalking or unauthorized monitoring of individuals</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Makes automated high-risk decisions:</strong>
+                        <ul class="sub-list">
+                            <li>Automated decisions with material detrimental impact on individual rights without human supervision in domains including employment, healthcare, finance, legal matters, housing, insurance, or social welfare</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Section 2: Security and Infrastructure -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon warning">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                    </span>
+                    Security and Service Integrity
+                </h2>
+
+                <p style="color: var(--gray); margin-bottom: 1.5rem;">Do not compromise the security of others or our services. This includes generating or distributing content that facilitates:</p>
+
+                <ul class="terms-list">
+                    <li>
+                        <strong>Spam, phishing, or malware:</strong>
+                        <ul class="sub-list">
+                            <li>Creating or distributing unsolicited bulk communications</li>
+                            <li>Phishing attempts or fraudulent communications</li>
+                            <li>Malicious software or code</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Infrastructure abuse or disruption:</strong>
+                        <ul class="sub-list">
+                            <li>Attacks on ShabdSetu or third-party infrastructure</li>
+                            <li>Denial-of-service attacks or service disruption</li>
+                            <li>Unauthorized access attempts or system exploitation</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Circumvention of safety measures:</strong>
+                        <ul class="sub-list">
+                            <li>Attempts to bypass abuse protections or safety filters</li>
+                            <li>Manipulating the system to contravene policies</li>
+                            <li>Exploiting vulnerabilities to evade restrictions</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Section 3: Harmful Content -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon danger">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path>
+                        </svg>
+                    </span>
+                    Prohibited Harmful and Inappropriate Content
+                </h2>
+
+                <p style="color: var(--gray); margin-bottom: 1.5rem;">Do not engage in activities involving inappropriate, violent, hateful, or harmful content. This includes generating or distributing content that facilitates:</p>
+
+                <ul class="terms-list">
+                    <li>
+                        <strong>Hatred or hate speech:</strong>
+                        <ul class="sub-list">
+                            <li>Content promoting hatred based on race, ethnicity, religion, gender, sexual orientation, disability, or other protected characteristics</li>
+                            <li>Discriminatory or derogatory content targeting specific groups</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Harassment and abuse:</strong>
+                        <ul class="sub-list">
+                            <li>Bullying, intimidation, or threatening behavior</li>
+                            <li>Abusive or insulting communications targeting individuals</li>
+                            <li>Coordinated harassment campaigns</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Violence and incitement:</strong>
+                        <ul class="sub-list">
+                            <li>Graphic violent content or gore</li>
+                            <li>Incitement to violence or dangerous activities</li>
+                            <li>Glorification of violence or suffering</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Inappropriate explicit content:</strong>
+                        <ul class="sub-list">
+                            <li>Content of an explicit nature created for purposes of arousal</li>
+                            <li>Material intended primarily for gratification rather than educational, artistic, or medical purposes</li>
+                            <li>Content violating standards of decency or community guidelines</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Section 4: Misinformation -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon warning">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </span>
+                    Misinformation and Deceptive Practices
+                </h2>
+
+                <p style="color: var(--gray); margin-bottom: 1.5rem;">Do not engage in misinformation, misrepresentation, or misleading activities. This includes:</p>
+
+                <ul class="terms-list">
+                    <li>
+                        <strong>Frauds and deceptive actions:</strong>
+                        <ul class="sub-list">
+                            <li>Scams or fraudulent schemes</li>
+                            <li>Deceptive business practices</li>
+                            <li>False advertising or misrepresentation of services</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Impersonation with intent to deceive:</strong>
+                        <ul class="sub-list">
+                            <li>Impersonating individuals (living or deceased) without explicit disclosure</li>
+                            <li>Creating content falsely attributed to real persons</li>
+                            <li>Misrepresenting identity or credentials</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Misleading expertise claims:</strong>
+                        <ul class="sub-list">
+                            <li>False claims of expertise in health, finance, government services, or legal matters</li>
+                            <li>Providing advice in sensitive areas without proper qualifications</li>
+                            <li>Misrepresenting professional capabilities or credentials</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Harmful misinformation:</strong>
+                        <ul class="sub-list">
+                            <li>False claims about governmental or democratic processes designed to deceive</li>
+                            <li>Misleading health information or harmful health practices</li>
+                            <li>Conspiracy theories or disinformation campaigns</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Misrepresentation of AI-generated content:</strong>
+                        <ul class="sub-list">
+                            <li>Claiming AI-generated content was created solely by humans when intending to deceive</li>
+                            <li>Failing to disclose AI involvement when required or material</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="highlight-box info">
+                <p><strong>Reporting Violations:</strong> If you encounter content or behavior that violates these terms, please report it to our support team immediately at support@shabdsetu.com</p>
+            </div>
+
+            <div class="highlight-box">
+                <p><strong>Enforcement:</strong> ShabdSetu reserves the right to investigate potential violations, suspend or terminate accounts, and cooperate with law enforcement authorities when necessary. We may update these terms periodically, and continued use of our services constitutes acceptance of any changes.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="features">Features</a></li>
+                        <li><a href="pricing">Pricing</a></li>
+                        <li><a href="tool">Tool</a></li>
+                        <li><a href="contactus">Contact us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="terms">Terms & Conditions</a></li>
+                        <li><a href="privacy">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 ShabdSetu. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const htmlElement = document.documentElement;
+        
+        htmlElement.setAttribute('data-theme', 'light');
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            htmlElement.setAttribute('data-theme', newTheme);
+        });
+
+        // Mobile Menu Toggle
+        const mobileToggle = document.getElementById('mobileToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        mobileToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
