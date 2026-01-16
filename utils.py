@@ -28,7 +28,7 @@ TRIAL_CHAR_LIMIT = 10000
 CHARS_PER_PAGE = 3333  # 10,000 chars / 3 pages = ~3,333 chars per page
 
 # Maximum page limit for PDFs (for both trial and paid users)
-MAX_PDF_PAGES = 500
+MAX_PDF_PAGES = 200
 
 
 def get_pdf_page_count(file_path):
@@ -336,3 +336,4 @@ def send_document_email(recipient_email, document_path, job_id):
     except Exception as e:
         logger.error(f"Failed to send document email: {e}")
         return False
+
