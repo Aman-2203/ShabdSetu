@@ -336,4 +336,3 @@ def send_document_email(recipient_email, document_path, job_id):
     except Exception as e:
         logger.error(f"Failed to send document email: {e}")
         return False
-

@@ -23,4 +23,3 @@ werkzeug==3.0.1
 
 # Environment Variables (optional but recommended)
 python-dotenv==1.0.0
-
