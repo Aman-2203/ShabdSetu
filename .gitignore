@@ -3,4 +3,4 @@ venv
 uploads
 outputs
 __pycache__
-routes/__pycache__
+routes\__pycache__

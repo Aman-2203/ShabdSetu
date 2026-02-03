@@ -22,10 +22,6 @@ def login():
 def send_otp():
     """Send OTP to user's email"""
     try:
-
-        if current_app.env == "development":
-            return jsonify({'success': True, 'message': 'OTP sent to your email'})
-
         data = request.get_json()
         email = data.get('email', '').strip().lower()
         
@@ -51,12 +47,6 @@ def send_otp():
 def verify_otp_route():
     """Verify OTP and create session"""
     try:
-
-        if current_app.env == "development":
-            session['user_email'] = "testmail@gmail.com"
-            session.permanent = True
-            return jsonify({'success': True, 'message': 'Login successful'})
-
         data = request.get_json()
         email = data.get('email', '').strip().lower()
         otp = data.get('otp', '').strip()
