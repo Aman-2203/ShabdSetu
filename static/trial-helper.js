@@ -102,42 +102,6 @@ async function handleProcessWithTrial(formData, mode) {
     }
 }
 
-// Add logout button
-function addLogoutButton() {
-    const logoutBtn = document.createElement('a');
-    logoutBtn.href = '/logout';
-    logoutBtn.innerHTML = '🚪 Logout';
-    logoutBtn.style.cssText = `
-        position: fixed;
-        margin-top:45px;
-        top: 20px;
-        left: 20px;
-        background: rgba(255, 255, 255, 0.9);
-        color: #333;
-        padding: 10px 20px;
-        border-radius: 10px;
-        text-decoration: none;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        font-size: 14px;
-        font-weight: 600;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        z-index: 1000;
-        transition: all 0.3s ease;
-    `;
-
-    logoutBtn.onmouseover = function () {
-        this.style.background = 'white';
-        this.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.15)';
-    };
-
-    logoutBtn.onmouseout = function () {
-        this.style.background = 'rgba(255, 255, 255, 0.9)';
-        this.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1)';
-    };
-
-    document.body.appendChild(logoutBtn);
-}
-
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', function () {
     // Get mode from page (you may need to adjust this based on your template)
@@ -146,8 +110,4 @@ document.addEventListener('DOMContentLoaded', function () {
         const mode = parseInt(modeMatch[1]);
         checkTrialStatus(mode);
     }
-
-    // Add logout button
-    addLogoutButton();
 });
-
