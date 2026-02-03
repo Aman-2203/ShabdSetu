@@ -30,13 +30,18 @@ def create_app():
     app.secret_key = os.getenv('FLASK_SECRET_KEY', os.urandom(24))
 
     # Apply Flask configuration from config.py
+    
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
     app.config['OUTPUT_FOLDER'] = OUTPUT_FOLDER
     app.config['MAX_CONTENT_LENGTH'] = MAX_CONTENT_LENGTH
     app.config['SESSION_COOKIE_HTTPONLY'] = SESSION_COOKIE_HTTPONLY
     app.config['SESSION_COOKIE_SAMESITE'] = SESSION_COOKIE_SAMESITE
     app.config['PERMANENT_SESSION_LIFETIME'] = PERMANENT_SESSION_LIFETIME
+    app.config['TEST_OTP'] = False
+    app.config['TEST_PAYMENT'] = False
 
+    app.env = os.getenv("ENV")
+    
     # Register all route blueprints
     register_blueprints(app)
 

@@ -1,2 +1,6 @@
 venv
 .env
+uploads
+outputs
+__pycache__
+routes/__pycache__

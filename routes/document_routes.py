@@ -96,7 +96,10 @@ def process_file():
                     is_paid = True
                     logger.info(f"Processing paid request: {payment_id} for {email}")
             
-            if not is_paid:
+            # Skip trial validation in development mode
+            is_dev_mode = current_app.env == "development"
+            
+            if not is_paid and not is_dev_mode:
                 # Check trial availability
                 trial_info = check_trial_available(email, mode)
                 remaining_pages = trial_info['pages_remaining']

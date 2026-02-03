@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, session
+from flask import Blueprint, request, jsonify, session, current_app
 import uuid
 import logging
 
@@ -25,6 +25,25 @@ payment_bp = Blueprint('payment', __name__)
 def create_payment():
     """Create a Razorpay payment order"""
     try:
+        # Bypass payment in development mode
+        if current_app.env == "development":
+            data = request.get_json()
+            mode = int(data.get('mode'))
+            pages = int(data.get('pages'))
+            cost_per_page = PRICING.get(mode, 0)
+            total_amount = cost_per_page * pages
+            return jsonify({
+                'success': True,
+                'order_id': 'dev_order_' + str(uuid.uuid4().hex[:12]),
+                'amount': total_amount,
+                'amount_paise': total_amount * 100,
+                'currency': 'INR',
+                'pages': pages,
+                'rate': cost_per_page,
+                'key_id': 'dev_key_id',
+                'dev_mode': True
+            })
+        
         data = request.get_json()
         mode = int(data.get('mode'))
         pages = int(data.get('pages'))
@@ -75,6 +94,16 @@ def create_payment():
 def verify_payment():
     """Verify Razorpay payment signature"""
     try:
+        # Bypass payment verification in development mode
+        if current_app.env == "development" and  not current_app.config['TEST_PAYMENT']:
+            data = request.get_json()
+            return jsonify({
+                'success': True,
+                'payment_id': 'dev_pay_' + str(uuid.uuid4().hex[:12]),
+                'message': 'Payment verified successfully (dev mode)',
+                'dev_mode': True
+            })
+        
         data = request.get_json()
         order_id = data.get('razorpay_order_id')
         payment_id = data.get('razorpay_payment_id')

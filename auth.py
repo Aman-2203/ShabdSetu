@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from functools import wraps
-from flask import session, jsonify, redirect, url_for
+from flask import session, jsonify, redirect, url_for, current_app
 import logging
 
 from db_config import get_user_collection, get_trial_usage_collection
@@ -199,6 +199,12 @@ def login_required(f):
     """Decorator to check if user is logged in"""
     @wraps(f)
     def decorated_function(*args, **kwargs):
+        # Bypass login check in development mode
+        if current_app.env == "development" and not current_app.config['TEST_OTP']:
+            if 'user_email' not in session:
+                session['user_email'] = "testmail@gmail.com"
+            return f(*args, **kwargs)
+        
         if 'user_email' not in session:
             return redirect(url_for('auth.login'))
         return f(*args, **kwargs)
@@ -210,6 +216,12 @@ def trial_required(mode):
     def decorator(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):
+            # Bypass trial check in development mode
+            if current_app.env == "development":
+                if 'user_email' not in session:
+                    session['user_email'] = "testmail@gmail.com"
+                return f(*args, **kwargs)
+            
             if 'user_email' not in session:
                 return jsonify({'error': 'Authentication required'}), 401
             
