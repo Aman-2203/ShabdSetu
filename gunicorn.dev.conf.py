@@ -1,5 +1,6 @@
 # Server socket
-bind =  "unix:/run/gunicorn/gunicorn.sock"
+bind = "0.0.0.0:8000"
+
 # Workers
 workers = 1
 worker_class = "sync"
@@ -19,4 +20,4 @@ max_requests_jitter = 100
 # Process naming
 proc_name = "shabdsetu"
 
-daemon=False
+daemon = False

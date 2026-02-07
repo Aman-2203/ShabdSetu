@@ -16,7 +16,7 @@ def initialize():
 
 @page_bp.route("/terms&conditions")
 def tc():
-    return render_template("TC.html")
+    return render_template("tc.html")
 
 
 @page_bp.route('/features')
@@ -57,3 +57,7 @@ def mode_page(mode_num):
     trial_info = check_trial_available(email, mode_num)
     
     return render_template(f'mode{mode_num}.html', mode=mode_num, trial_info=trial_info)
+
+@page_bp.route("/health")
+def health():
+    return "ok", 200
