@@ -29,6 +29,7 @@ class DocumentProcessor:
         self.last_request_time = 0
         self.min_request_interval = 0.05  # Reduced for paid tier
         self.job_id = job_id
+        self.job_id = job_id
         self.executor = executor  # External executor (global thread pool)
 
     def update_progress(self, current: int, total: int, status: str):

@@ -12,10 +12,9 @@ graceful_timeout = 30
 accesslog = "-"
 errorlog = "-"
 
-# Safety - Memory Management
-# Recycle worker after 100 requests to release accumulated memory
-max_requests = 100
-max_requests_jitter = 10
+# Safety
+max_requests = 1000
+max_requests_jitter = 100
 
 # Process naming
 proc_name = "shabdsetu"

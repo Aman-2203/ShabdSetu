@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 start_otp_cleanup_thread()
 
 atexit.register(cleanup_executor)
-logger.info(f"Initialized global Gemini executor with 40 workers")
+logger.info(f"Initialized global Gemini executor with 10 workers")
 
 def create_app():
     # Flask app setup
@@ -37,8 +37,8 @@ def create_app():
     app.config['SESSION_COOKIE_HTTPONLY'] = SESSION_COOKIE_HTTPONLY
     app.config['SESSION_COOKIE_SAMESITE'] = SESSION_COOKIE_SAMESITE
     app.config['PERMANENT_SESSION_LIFETIME'] = PERMANENT_SESSION_LIFETIME
-    app.config['TEST_OTP'] = False
-    app.config['TEST_PAYMENT'] = False
+    app.config['TEST_OTP'] = True
+    app.config['TEST_PAYMENT'] = True
 
     app.env = os.getenv("ENV")
     
