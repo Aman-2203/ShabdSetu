@@ -10,6 +10,8 @@ from utils import send_document_email
 logger = logging.getLogger(__name__)
 
 
+import gc  # Added for explicit memory management
+
 def process_document_background(thread_pool, job_id, mode, input_path, language, source_lang, target_lang, original_filename, user_email='', user_prompt=''):
     """Background processing function"""
     try:
@@ -128,6 +130,9 @@ def process_document_background(thread_pool, job_id, mode, input_path, language,
             'percentage': 0,
             'error': True
         }
+    finally:
+        # Explicitly run garbage collection to free memory
+        gc.collect()
 
 # File cleanup delay (30 minutes in seconds)
 FILE_CLEANUP_DELAY = 30 * 60  # 30 minutes

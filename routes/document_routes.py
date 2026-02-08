@@ -20,7 +20,7 @@ from .payment_routes import get_pricing
 # and prevent rate limit issues with paid tier
 # ==============================================================
 GLOBAL_GEMINI_EXECUTOR = ThreadPoolExecutor(
-    max_workers=40,
+    max_workers=10,
     thread_name_prefix="gemini_worker")
 
 logger = logging.getLogger(__name__)
@@ -107,6 +107,17 @@ def process_file():
                 # Validate against trial limits
                 validation_result = validate_trial_limits(page_usage_info, remaining_pages)
                 
+                # STRICT PAGE LIMIT CHECK (OOM Prevention)
+                # Reject any document > 200 pages immediately to protect server RAM
+                MAX_PAGES = 200
+                if page_usage_info['actual_pages'] > MAX_PAGES:
+                    if os.path.exists(input_path):
+                        os.remove(input_path)
+                    return jsonify({
+                        'error': f'Document exceeds maximum limit of {MAX_PAGES} pages.',
+                        'page_count': page_usage_info['actual_pages']
+                    }), 400
+
                 if not validation_result['valid']:
                     # Clean up uploaded file
                     if os.path.exists(input_path):
