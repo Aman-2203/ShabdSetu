@@ -45,7 +45,6 @@ def index_redirect():
     
     return render_template('index.html', trial_info=trial_info_all_modes)
 
-
 @page_bp.route('/mode/<int:mode_num>')
 @login_required
 def mode_page(mode_num):

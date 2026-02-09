@@ -41,10 +41,17 @@ class OCRProcessor:
     # REMOVED: pdf_to_images method (causing OOM) - integrated into perform_ocr with batching
 
     def image_to_base64(self, image: Image.Image) -> str:
-        """Convert image to base64"""
+        """Convert image to base64 using JPEG compression (saves ~60% memory)"""
+        # Convert to RGB if necessary (JPEG doesn't support transparency)
+        if image.mode in ('RGBA', 'LA', 'P'):
+            image = image.convert('RGB')
+        
         buffer = io.BytesIO()
-        image.save(buffer, format='PNG', optimize=True, quality=95)
-        return base64.b64encode(buffer.getvalue()).decode('utf-8')
+        # Use JPEG with 85% quality - much smaller than PNG, minimal quality loss
+        image.save(buffer, format='JPEG', quality=85, optimize=True)
+        result = base64.b64encode(buffer.getvalue()).decode('utf-8')
+        buffer.close()
+        return result
 
     def extract_text_from_image(self, base64_image: str) -> str:
         """Extract text using Google Vision API"""
@@ -73,10 +80,14 @@ class OCRProcessor:
     def process_page(self, index, image):
         """Helper to process a single page (used by thread pool)"""
         try:
-            # Note: We don't have total_pages here easily, so we simplify the log
-            # self.update_progress(...) call is moved to the batch loop or approx
             base64_image = self.image_to_base64(image)
+            # Option 4: Immediately cleanup image after base64 conversion
+            del image
+            
             text = self.extract_text_from_image(base64_image)
+            # Cleanup base64 string after API call
+            del base64_image
+            
             return text if text.strip() else ""
         except Exception as e:
             logger.warning(f"Error on page {index + 1}: {e}")
@@ -122,6 +133,11 @@ class OCRProcessor:
                     img_data = pix.tobytes("png")
                     image = Image.open(io.BytesIO(img_data))
                     current_batch_images.append((page_num, image))
+                    
+                    # Option 8: Immediately release PDF page and pixmap memory
+                    del pix
+                    del img_data
+                    # Note: page is just a reference, closing handled by pdf_document
                 
                 # Process current batch in parallel
                 with ThreadPoolExecutor(max_workers=BATCH_SIZE) as executor:
@@ -143,9 +159,14 @@ class OCRProcessor:
                             logger.error(f"Error processing page {page_num}: {e}")
                             results[page_num] = ""
 
-                # Explicitly clear memory for this batch
+                # Option 4 & 6: Explicitly clear all batch memory and force garbage collection
+                for _, img in current_batch_images:
+                    try:
+                        img.close()
+                    except:
+                        pass
                 del current_batch_images
-                gc.collect()
+                gc.collect()  # Force garbage collection after each batch
                 
         finally:
             pdf_document.close()
