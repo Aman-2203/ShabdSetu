@@ -42,8 +42,8 @@ def send_otp_email(email, otp):
         msg = MIMEMultipart()
         msg['From'] = GMAIL_ADDRESS
         msg['To'] = email
-        msg['Subject'] = 'Your OTP for Shabdsetu Clone Login'
-        
+        msg['Subject'] = 'Your OTP for Shabdsetu Login'
+
         body = f"""
         <html>
         <body>

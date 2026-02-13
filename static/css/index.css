@@ -37,7 +37,7 @@
 /* Mode Selection Grid */
 .modes-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
     gap: 1.25rem;
     margin-bottom: 2rem;
 }
@@ -467,64 +467,9 @@
     font-size: 0.9375rem;
 }
 
-/* Buttons */
+/* Index-specific button overrides */
 .btn {
-    padding: 1rem 1.5rem;
-    border: none;
-    border-radius: 12px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s var(--ease-smooth);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    text-decoration: none;
-    font-family: 'Inter', sans-serif;
     width: 100%;
-}
-
-.btn svg {
-    width: 20px;
-    height: 20px;
-}
-
-.btn-primary {
-    background: var(--accent-blue);
-    color: var(--light);
-    box-shadow: var(--shadow-sm);
-}
-
-.btn-primary:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
-}
-
-.btn-primary:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-.btn-success {
-    background: var(--accent-green);
-    color: var(--light);
-}
-
-.btn-success:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
-}
-
-.btn-secondary {
-    background: var(--card-bg);
-    color: var(--primary);
-    border: 2px solid var(--border);
-}
-
-.btn-secondary:hover {
-    background: var(--background);
-    border-color: var(--primary);
 }
 
 .btn-group {
@@ -807,7 +752,7 @@
 /* Desktop Responsive */
 @media (min-width: 1024px) {
     .modes-grid {
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
         gap: 1.5rem;
     }
 }

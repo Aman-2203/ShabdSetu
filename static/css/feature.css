@@ -123,7 +123,7 @@
 /* ==================== FEATURES GRID ==================== */
 .features-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
     gap: 1.5rem;
     margin-bottom: 2rem;
 }
@@ -206,7 +206,7 @@
 /* ==================== DO'S AND DON'TS ==================== */
 .dos-donts-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
     gap: 1.5rem;
 }
 
@@ -309,7 +309,7 @@
 /* ==================== TIPS GRID ==================== */
 .tips-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
     gap: 1.5rem;
 }
 
@@ -379,14 +379,20 @@
 }
 
 .faq-question {
+    width: 100%;
     padding: 1.25rem 1.5rem;
+    background: none;
+    border: none;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 1rem;
+    font-family: inherit;
     font-weight: 600;
     font-size: clamp(0.9375rem, 2vw, 1.125rem);
+    color: var(--primary);
+    text-align: left;
 }
 
 .faq-question:hover {
@@ -430,33 +436,17 @@
     z-index: 98;
 }
 
-.btn {
-    padding: 1rem 1.5rem;
-    border: none;
-    border-radius: 12px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s var(--ease-smooth);
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    text-decoration: none;
-    font-family: 'Inter', sans-serif;
+/* Floating CTA Button */
+.floating-cta .btn {
     background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
     color: var(--light);
     box-shadow: var(--shadow-lg);
     white-space: nowrap;
 }
 
-.btn:hover {
+.floating-cta .btn:hover {
     transform: translateY(-2px) scale(1.02);
     box-shadow: 0 20px 40px rgba(59, 130, 246, 0.3);
-}
-
-.btn svg {
-    width: 18px;
-    height: 18px;
 }
 
 /* ==================== ANIMATIONS ==================== */
@@ -526,13 +516,17 @@
         align-items: center;
     }
 
+    .container {
+        padding-bottom: 5rem;
+    }
+
     .floating-cta {
         bottom: 1rem;
         right: 1rem;
         left: 1rem;
     }
 
-    .btn {
+    .floating-cta .btn {
         width: 100%;
         justify-content: center;
         padding: 0.875rem 1.5rem;

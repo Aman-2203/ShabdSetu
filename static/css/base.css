@@ -195,36 +195,37 @@ body {
     height: 24px;
 }
 
+/* ==================== HEADER ACTIONS ==================== */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
 /* ==================== THEME TOGGLE ==================== */
 .theme-toggle {
-    position: fixed;
-    top: 1rem;
-    right: 1rem;
-    width: 48px;
-    height: 48px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    background: var(--card-bg);
-    border: 2px solid var(--border);
+    background: transparent;
+    border: 1px solid var(--border);
     color: var(--primary);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: var(--shadow-md);
     transition: all 0.3s var(--ease-smooth);
-    z-index: 101;
-    margin-top: -5px;
 }
 
 .theme-toggle:hover {
-    transform: scale(1.1) rotate(15deg);
-    box-shadow: var(--shadow-lg);
+    background: var(--card-bg);
     border-color: var(--accent-blue);
+    transform: scale(1.1) rotate(15deg);
 }
 
 .theme-toggle svg {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     transition: all 0.3s var(--ease-smooth);
 }
 
@@ -325,6 +326,65 @@ body {
     }
 }
 
+/* ==================== BUTTONS ==================== */
+.btn {
+    padding: 1rem 1.5rem;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s var(--ease-smooth);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+}
+
+.btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+.btn-primary {
+    background: var(--accent-blue);
+    color: var(--light);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+}
+
+.btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-success {
+    background: var(--accent-green);
+    color: var(--light);
+}
+
+.btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+}
+
+.btn-secondary {
+    background: var(--card-bg);
+    color: var(--primary);
+    border: 2px solid var(--border);
+}
+
+.btn-secondary:hover {
+    background: var(--background);
+    border-color: var(--primary);
+}
+
 /* ==================== RESPONSIVE ==================== */
 
 /* Tablet */
@@ -383,25 +443,6 @@ body {
         display: block;
     }
 
-    .theme-toggle {
-        top: 0.75rem;
-        right: 4rem;
-        width: 44px;
-        height: 44px;
-        margin: 0 5px;
-    }
+
 }
 
-/* Small Mobile */
-@media (max-width: 480px) {
-    .theme-toggle {
-        width: 40px;
-        height: 40px;
-        right: 3.5rem;
-    }
-
-    .theme-toggle svg {
-        width: 18px;
-        height: 18px;
-    }
-}
