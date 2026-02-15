@@ -14,9 +14,7 @@ accesslog = "-"
 errorlog = "-"
 
 # Safety
-max_requests = 1000
-max_requests_jitter = 100
-
+    
 # Process naming
 proc_name = "shabdsetu"
 
