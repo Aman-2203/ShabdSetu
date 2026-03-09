@@ -108,9 +108,10 @@ def process_file():
                 validation_result = validate_trial_limits(page_usage_info, remaining_pages)
                 
                 # STRICT PAGE LIMIT CHECK (OOM Prevention)
-                # Reject any document > 200 pages immediately to protect server RAM
+                # Reject any PDF document > 200 pages immediately to protect server RAM
+                # Word docs are exempted as per user request
                 MAX_PAGES = 200
-                if page_usage_info['actual_pages'] > MAX_PAGES:
+                if page_usage_info['file_type'] == 'pdf' and page_usage_info['actual_pages'] > MAX_PAGES:
                     if os.path.exists(input_path):
                         os.remove(input_path)
                     return jsonify({
