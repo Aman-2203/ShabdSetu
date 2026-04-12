@@ -100,35 +100,26 @@ def process_file():
                     trial_info = check_trial_available(email, mode)
                     remaining_min = trial_info['pages_remaining']
 
-                    if duration_min > AUDIO_TRIAL_MINUTES:
+                    if duration_min > remaining_min:
                         if os.path.exists(input_path):
                             os.remove(input_path)
+                            
+                        if remaining_min <= 0:
+                            msg = 'You have used all your free trial minutes for Audio Transcription.'
+                        elif duration_min > AUDIO_TRIAL_MINUTES:
+                            msg = f"Your audio is {duration_min:.1f} minutes, but the free trial allows up to {AUDIO_TRIAL_MINUTES} minutes. Please upgrade to process longer audio files."
+                        else:
+                            msg = f"Your audio is {duration_min:.1f} minutes, but you only have {remaining_min:.1f} minute{'s' if remaining_min != 1 else ''} remaining in your trial. Please upload a smaller file or upgrade."
+
                         return jsonify({
                             'error': 'Trial limit exceeded',
-                            'message': (
-                                f"Your audio is {duration_min:.1f} minutes, "
-                                f"but the free trial allows up to {AUDIO_TRIAL_MINUTES} minutes. "
-                                "Please upgrade to process longer audio files."
-                            ),
+                            'message': msg,
                             'pages_used': trial_info['pages_used'],
                             'pages_remaining': remaining_min,
                             'limit': trial_info['limit'],
                             'billable_pages': billable_minutes,
                             'estimated_cost': billable_minutes * PRICING.get(mode, 0),
                             'page_usage': duration_min,
-                        }), 403
-
-                    if remaining_min <= 0:
-                        if os.path.exists(input_path):
-                            os.remove(input_path)
-                        return jsonify({
-                            'error': 'Trial limit exceeded',
-                            'message': 'You have used all your free trial minutes for Audio Transcription.',
-                            'pages_used': trial_info['pages_used'],
-                            'pages_remaining': 0,
-                            'limit': trial_info['limit'],
-                            'billable_pages': billable_minutes,
-                            'estimated_cost': billable_minutes * PRICING.get(mode, 0),
                         }), 403
 
                     page_usage = duration_min
