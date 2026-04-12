@@ -269,7 +269,7 @@ gunicorn -c gunicorn.dev.conf.py wsgi:app
 | 3    | Proofread Only         | ₹6 / page   |
 | 4    | OCR + Translation      | ₹9 / page   |
 | 5    | Translation Only       | ₹6 / page   |
-| 6    | Audio Transcription    | ₹4 / minute |
+| 6    | Audio Transcription    | ₹10 / minute |
 
 Pricing is defined in `routes/payment_routes.py` → `PRICING` dict.
 
