@@ -1,30 +1,31 @@
-/* Contact Us Page - Page-specific styles only */
-/* Base styles (reset, variables, header, footer, theme-toggle) are in base.css */
+/* ============================================================
+   Contact Us Page – Apple-Style Clean UI
+   ============================================================ */
 
 /* ==================== HERO SECTION ==================== */
 .hero {
     text-align: center;
     padding: clamp(1.5rem, 4vw, 3rem) 0;
-    animation: fadeInDown 0.8s var(--ease-smooth);
+    animation: fadeInDown 0.7s var(--ease-out-expo);
 }
 
 .hero h1 {
-    font-family: 'DM Sans', 'Inter', sans-serif;
-    font-size: clamp(1.75rem, 6vw, 3rem);
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 6vw, 3rem);
     font-weight: 700;
-    margin-bottom: 1rem;
-    background: linear-gradient(135deg, var(--primary), var(--accent-blue));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    margin-bottom: 0.75rem;
+    color: var(--primary);
+    letter-spacing: -0.04em;
+    line-height: 1.08;
 }
 
 .hero p {
     color: var(--gray);
-    font-size: clamp(0.9375rem, 2.5vw, 1.25rem);
-    max-width: 600px;
+    font-size: clamp(0.9375rem, 2.5vw, 1.125rem);
+    max-width: 520px;
     margin: 0 auto;
     padding: 0 1rem;
+    line-height: 1.5;
 }
 
 /* ==================== CONTACT GRID ==================== */
@@ -35,8 +36,8 @@
 .contact-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 2rem;
-    max-width: 720px;
+    gap: 1.5rem;
+    max-width: 580px;
     width: 100%;
     margin: 0 auto;
     padding: 0 1rem;
@@ -45,10 +46,10 @@
 .contact-card {
     background: var(--card-bg);
     border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: clamp(1.5rem, 4vw, 2.5rem);
-    box-shadow: var(--shadow-md);
-    transition: all 0.3s var(--ease-smooth);
+    border-radius: var(--radius-xl);
+    padding: clamp(1.5rem, 4vw, 2rem);
+    box-shadow: var(--shadow-sm);
+    transition: all var(--duration-base) var(--ease-smooth);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -56,81 +57,82 @@
 }
 
 .contact-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
-    border-color: var(--accent-blue);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
 }
 
-/* Contact Icon */
+/* ==================== CONTACT ICON ==================== */
 .contact-icon {
-    width: clamp(48px, 10vw, 56px);
-    height: clamp(48px, 10vw, 56px);
-    border-radius: 14px;
-    background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    background: var(--accent-blue);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 1.25rem;
+    margin-bottom: 1rem;
+    color: white;
 }
 
 .contact-icon svg {
-    width: clamp(24px, 5vw, 28px);
-    height: clamp(24px, 5vw, 28px);
+    width: 24px;
+    height: 24px;
 }
 
-/* Heading */
+/* ==================== CONTACT CARD TEXT ==================== */
 .contact-card h3 {
-    font-family: 'DM Sans', sans-serif;
-    font-size: clamp(1.125rem, 3vw, 1.375rem);
+    font-family: var(--font-display);
+    font-size: 1.25rem;
     font-weight: 600;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.375rem;
+    letter-spacing: -0.02em;
 }
 
-/* Description */
 .contact-card > p {
-    font-size: clamp(0.875rem, 2vw, 0.9375rem);
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    margin-bottom: 1.25rem;
     color: var(--gray);
 }
 
-/* Email Display */
+/* ==================== EMAIL DISPLAY ==================== */
 .email-display {
     width: 100%;
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    background: var(--bg);
+    gap: 0.625rem;
+    background: var(--background-secondary);
     border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 0.875rem 1rem;
-    margin-bottom: 1rem;
+    border-radius: var(--radius-md);
+    padding: 0.75rem 0.875rem;
+    margin-bottom: 0.875rem;
 }
 
-/* Email Text */
 .email-text {
     flex: 1;
     word-break: break-word;
     overflow-wrap: break-word;
-    font-size: clamp(0.875rem, 2vw, 1rem);
+    font-size: 0.875rem;
     min-width: 0;
+    color: var(--primary);
+    font-weight: 500;
 }
 
 .copy-btn {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.625rem 1rem;
+    gap: 0.375rem;
+    padding: 0.5rem 0.75rem;
     background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 8px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
     color: var(--gray);
-    font-size: 0.8125rem;
+    font-size: 0.75rem;
     font-weight: 500;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all var(--duration-fast) ease;
     white-space: nowrap;
-    min-height: 44px; /* Better touch target */
+    font-family: var(--font-sans);
 }
 
 .copy-btn:hover {
@@ -144,48 +146,47 @@
 }
 
 .copy-btn svg {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
     flex-shrink: 0;
 }
 
-/* Mailto Button */
+/* ==================== MAILTO BUTTON ==================== */
 .mailto-btn {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
     width: 100%;
-    padding: 1rem 1.5rem;
-    min-height: 48px; /* Better touch target */
-    background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-    color: var(--light);
-    font-size: clamp(0.9375rem, 2vw, 1rem);
+    padding: 0.75rem 1.25rem;
+    background: var(--accent-blue);
+    color: white;
+    font-size: 0.875rem;
     font-weight: 600;
-    font-family: inherit;
+    font-family: var(--font-sans);
     text-decoration: none;
     border: none;
-    border-radius: 12px;
+    border-radius: var(--radius-full);
     cursor: pointer;
-    transition: all 0.3s var(--ease-smooth);
+    transition: all var(--duration-base) var(--ease-smooth);
 }
 
 .mailto-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
+    background: var(--accent-blue-hover);
+    transform: scale(1.02);
 }
 
 .mailto-btn svg {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     flex-shrink: 0;
 }
 
-/* ==================== INFO CARDS SECTION ==================== */
+/* ==================== INFO CARDS ==================== */
 .info-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
-    gap: 1.25rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
     margin-top: 2rem;
     padding: 0 1rem;
 }
@@ -193,65 +194,78 @@
 .info-card {
     background: var(--card-bg);
     border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 1.5rem;
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
     display: flex;
-    gap: 1rem;
-    transition: all 0.3s var(--ease-smooth);
+    gap: 0.875rem;
+    transition: all var(--duration-base) var(--ease-smooth);
 }
 
 .info-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-2px);
     box-shadow: var(--shadow-md);
-    border-color: var(--accent-green);
 }
 
 .info-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, var(--accent-green), var(--accent-blue));
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-sm);
+    background: var(--accent-green);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    color: var(--light);
+    color: white;
 }
 
 .info-icon svg {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
 }
 
 .info-content h4 {
-    font-size: clamp(0.9375rem, 2vw, 1rem);
+    font-size: 0.875rem;
     font-weight: 600;
-    margin-bottom: 0.375rem;
+    margin-bottom: 0.25rem;
+    letter-spacing: -0.01em;
 }
 
 .info-content p {
     color: var(--gray);
-    font-size: clamp(0.8125rem, 1.8vw, 0.875rem);
-    line-height: 1.6;
+    font-size: 0.75rem;
+    line-height: 1.5;
 }
 
 .info-card a {
     color: var(--accent-blue);
     text-decoration: none;
-    transition: color 0.2s ease;
+    transition: color var(--duration-fast) ease;
     word-break: break-word;
 }
 
 .info-card a:hover {
-    color: var(--accent-purple);
+    color: var(--accent-blue-hover);
+}
+
+/* ==================== ANIMATIONS ==================== */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* ==================== RESPONSIVE ==================== */
 @media (max-width: 768px) {
-    .contact-card:hover {
-        transform: none; /* Prevent hover on touch devices */
+    .info-cards {
+        grid-template-columns: 1fr;
     }
-    
+
+    .contact-card:hover,
     .info-card:hover {
         transform: none;
     }
@@ -261,30 +275,11 @@
     .email-display {
         flex-direction: column;
         align-items: stretch;
-        gap: 0.75rem;
+        gap: 0.5rem;
     }
 
     .copy-btn {
         justify-content: center;
         width: 100%;
-    }
-    
-    .info-cards {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 360px) {
-    .contact-card {
-        border-radius: 16px;
-    }
-    
-    .contact-icon {
-        width: 48px;
-        height: 48px;
-    }
-    
-    .hero h1 {
-        font-size: 1.5rem;
     }
 }

@@ -2,7 +2,7 @@ import os
 import threading
 import logging
 from config import UPLOAD_FOLDER, OUTPUT_FOLDER, MAX_CONTENT_LENGTH, progress_tracker
-from processors import ProofreadingProcessor, TranslationProcessor, OCRProcessor
+from processors import ProofreadingProcessor, TranslationProcessor, OCRProcessor, AudioProcessor
 from document_handler import DocumentHandler
 from utils import send_document_email
 
@@ -10,9 +10,9 @@ from utils import send_document_email
 logger = logging.getLogger(__name__)
 
 
-import gc  # Added for explicit memory management
+import gc  # for explicit memory management
 
-def process_document_background(thread_pool, job_id, mode, input_path, language, source_lang, target_lang, original_filename, user_email='', user_prompt=''):
+def process_document_background(thread_pool, job_id, mode, input_path, language, source_lang, target_lang, original_filename, user_email=''):
     """Background processing function"""
     try:
         # Get API keys from environment
@@ -92,9 +92,31 @@ def process_document_background(thread_pool, job_id, mode, input_path, language,
             
             output_filename = f"{base_name}_{job_id}_translated_{target_lang}.docx"
             output_path = os.path.join(OUTPUT_FOLDER, output_filename)
-            DocumentHandler.create_formatted_document(translated_chunks, output_path, target_lang, "Translated")        
-        
-        # Mark as complete
+            DocumentHandler.create_formatted_document(translated_chunks, output_path, target_lang, "Translated")
+
+        elif mode == 6:
+            # Audio Transcription + Gemini Refinement
+            elevenlabs_api_key = os.getenv('ELEVENLABS_API_KEY')
+            if not elevenlabs_api_key:
+                raise ValueError("ELEVENLABS_API_KEY is not set in environment variables.")
+
+            audio_processor = AudioProcessor(
+                elevenlabs_api_key=elevenlabs_api_key,
+                gemini_api_key=gemini_api_key,
+                job_id=job_id,
+                executor=thread_pool
+            )
+            result = audio_processor.process_audio(input_path, language=language or None)
+            refined_transcript = result['refined_transcript']
+            refined_chunks = refined_transcript.split('\n\n')
+
+            output_filename = f"{base_name}_{job_id}_audio_transcript.docx"
+            output_path = os.path.join(OUTPUT_FOLDER, output_filename)
+            DocumentHandler.create_formatted_document(
+                refined_chunks, output_path,
+                language or 'english',
+                is_transcript=True
+            )
         progress_tracker[job_id] = {
             'current': 100,
             'total': 100,
@@ -109,12 +131,14 @@ def process_document_background(thread_pool, job_id, mode, input_path, language,
             try:
                 output_path = os.path.join(OUTPUT_FOLDER, output_filename)
                 email_sent = send_document_email(user_email, output_path, job_id)
+                progress_tracker[job_id]['email_sent'] = email_sent
                 if email_sent:
                     logger.info(f"Auto-sent document email to {user_email} for job {job_id}")
                 else:
                     logger.warning(f"Failed to auto-send email to {user_email} for job {job_id}")
             except Exception as e:
                 logger.error(f"Error auto-sending email for job {job_id}: {e}")
+                progress_tracker[job_id]['email_sent'] = False
                 # Don't fail the job if email fails - user can still download
         
         # Schedule file cleanup after 30 minutes
@@ -130,6 +154,8 @@ def process_document_background(thread_pool, job_id, mode, input_path, language,
             'percentage': 0,
             'error': True
         }
+        # Clean up input file and progress tracker even on error
+        schedule_file_cleanup(input_path, None, job_id)
     finally:
         # Explicitly run garbage collection to free memory
         gc.collect()

@@ -7,13 +7,15 @@ from payment_handler import payment_handler
 
 logger = logging.getLogger(__name__)
 
-# Pricing Configuration (Rs. per page)
+# Pricing Configuration
+# Modes 1-5: Rs. per page  |  Mode 6: Rs. per minute of audio
 PRICING = {
-    1: 3,  # OCR
-    2: 9,  # OCR + Proofread (3 + 6)
-    3: 6,  # Proofread
-    4: 9,  # OCR + Translation (3 + 6)
-    5: 6   # Translation
+    1: 3,   # OCR
+    2: 9,   # OCR + Proofread (3 + 6)
+    3: 6,   # Proofread
+    4: 9,   # OCR + Translation (3 + 6)
+    5: 6,   # Translation
+    6: 4,   # Audio Transcription (₹4 per minute)
 }
 
 # Create blueprint

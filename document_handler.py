@@ -28,8 +28,13 @@ class DocumentHandler:
     
     @staticmethod
     def create_formatted_document(chunks: List[str], output_file: str, 
-                                language: str, doc_type: str = "Processed"):
-        """Create formatted Word document with improved formatting"""
+                                language: str, doc_type: str = "Processed",
+                                is_transcript: bool = False):
+        """Create formatted Word document with improved formatting.
+        
+        Args:
+            is_transcript: When True, uses audio transcription title/subtitle copy.
+        """
         try:
             if language.lower() == 'gujarati':
                 primary_font = 'Noto Serif Gujarati'
@@ -49,16 +54,26 @@ class DocumentHandler:
             paragraph_format.first_line_indent = Inches(0.5)
             paragraph_format.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
             
-            title = new_doc.add_heading(f'{doc_type} {language.title()} Document', 0)
+            if is_transcript:
+                heading_text = 'Audio Transcription'
+                subtitle_line1 = 'Transcribed & Refined Edition'
+            else:
+                heading_text = f'{doc_type} {language.title()} Document'
+                subtitle_line1 = f'{doc_type} Version'
+            
+            title = new_doc.add_heading(heading_text, 0)
             title.alignment = WD_ALIGN_PARAGRAPH.CENTER
             for run in title.runs:
                 run.font.name = primary_font
                 run.font.size = Pt(18)
             
             subtitle = new_doc.add_paragraph()
-            subtitle.add_run(f"{doc_type} Version").italic = True
+            subtitle.add_run(subtitle_line1).italic = True
             subtitle.add_run(f"\nProcessed on: {time.strftime('%Y-%m-%d %H:%M:%S')}")
-            subtitle.add_run(f"\nLanguage: {language.title()}")
+            if not is_transcript:
+                subtitle.add_run(f"\nLanguage: {language.title()}")
+            else:
+                subtitle.add_run(f"\nLanguage: {language.title()}")
             subtitle.alignment = WD_ALIGN_PARAGRAPH.CENTER
             for run in subtitle.runs:
                 run.font.name = primary_font

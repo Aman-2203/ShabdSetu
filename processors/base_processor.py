@@ -33,9 +33,11 @@ class DocumentProcessor:
         self.executor = executor  # External executor (global thread pool)
 
     def update_progress(self, current: int, total: int, status: str):
-        """Update progress for the job"""
+        """Update progress for the job, preserving existing fields like user_email/page_usage."""
         if self.job_id:
+            existing = progress_tracker.get(self.job_id, {})
             progress_tracker[self.job_id] = {
+                **existing,
                 'current': current,
                 'total': total,
                 'status': status,

@@ -23,3 +23,7 @@ werkzeug==3.0.1
 
 # Environment Variables (optional but recommended)
 python-dotenv==1.0.0
+
+# Audio Processing (Mode 6)
+elevenlabs==1.0.0
+pydub==0.25.1

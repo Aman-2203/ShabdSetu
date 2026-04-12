@@ -63,15 +63,27 @@
             <p>Extract and translate to your target language</p>
         </div>
 
-        <div class="mode-card" data-mode="5" data-needs-translate="true" data-accept=".docx">
+        <div class="mode-card" data-mode="5" data-needs-translate="true" data-accept=".docx" data-audio="false">
             <div class="mode-icon">
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
+                        d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4">
+                    </path>
                 </svg>
             </div>
             <h3>Translate</h3>
             <p>Professional document translation services</p>
+        </div>
+
+        <div class="mode-card" data-mode="6" data-needs-lang="true" data-accept=".mp3,.wav" data-audio="true">
+            <div class="mode-icon">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M3 18v-6a9 9 0 0118 0v6M3 18a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3v5zM21 18a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3v5z" />
+                </svg>
+            </div>
+            <h3>Audio Transcription</h3>
+            <p>Convert audio recordings into polished, publish-ready documents</p>
         </div>
     </div>
 
@@ -144,6 +156,14 @@
                             </svg>
                             <span id="filePages">0 pages</span>
                         </div>
+                        <div class="file-info-item" id="fileDurationItem" style="display: none;">
+                            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z">
+                                </path>
+                            </svg>
+                            <span id="fileDuration">0:00</span>
+                        </div>
                     </div>
                     <button class="file-remove" id="fileRemove">
                         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -210,6 +230,19 @@
                 <div class="progress-fill" id="progressFill" style="width: 0%"></div>
             </div>
             <div class="progress-text" id="progressText">Initializing... 0%</div>
+            <div class="email-delivery-notice" id="emailDeliveryNotice">
+                <div class="email-delivery-icon">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                </div>
+                <div class="email-delivery-text">
+                    <span class="email-delivery-title">Email Delivery</span>
+                    <span class="email-delivery-desc">No need to wait here—once your document is ready, we’ll send it
+                        straight to your email.</span>
+                </div>
+            </div>
         </div>
 
         <div class="success-message" id="successMessage">
@@ -221,6 +254,13 @@
                 Processing Complete!
             </h4>
             <p>Your document has been processed successfully.</p>
+            <p class="email-delivery-success-note">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                A copy has also been sent to your email.
+            </p>
             <div>
                 <button class="btn btn-success" id="downloadBtn">
                     <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">

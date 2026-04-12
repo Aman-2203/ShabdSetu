@@ -40,7 +40,7 @@ def index_redirect():
     # Get trial info for all modes to display on the page
     email = session['user_email']
     trial_info_all_modes = {}
-    for mode in range(1, 6):
+    for mode in [1, 2, 3, 4, 5, 6]:
         trial_info_all_modes[mode] = check_trial_available(email, mode)
     
     return render_template('index.html', trial_info=trial_info_all_modes)
@@ -48,7 +48,7 @@ def index_redirect():
 @page_bp.route('/mode/<int:mode_num>')
 @login_required
 def mode_page(mode_num):
-    if mode_num not in range(1, 6):
+    if mode_num not in [1, 2, 3, 4, 5, 6]:
         return "Invalid mode", 404
     
     # Get trial information

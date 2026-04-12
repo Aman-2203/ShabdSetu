@@ -22,7 +22,7 @@ function initTrialInfo() {
 }
 
 // Trial status management
-function updateTrialStatus(trialInfo) {
+function updateTrialStatus(trialInfo, isAudio) {
     if (!trialInfo) return;
 
     currentTrialInfo = trialInfo;
@@ -31,8 +31,11 @@ function updateTrialStatus(trialInfo) {
     const fill = document.getElementById('trialProgressFill');
     const info = document.getElementById('trialStatusInfo');
 
+    const unit = isAudio ? 'min' : 'pages';
+    const unitFull = isAudio ? 'minute(s)' : 'page(s)';
+
     // Update values
-    value.textContent = `${trialInfo.pages_used} / ${trialInfo.limit} pages used`;
+    value.textContent = `${trialInfo.pages_used.toFixed(isAudio ? 1 : 0)} / ${trialInfo.limit} ${unit} used`;
     const percentage = (trialInfo.pages_remaining / trialInfo.limit) * 100;
     fill.style.width = percentage + '%';
 
@@ -42,12 +45,12 @@ function updateTrialStatus(trialInfo) {
 
     if (trialInfo.pages_remaining <= 0) {
         banner.classList.add('exhausted');
-        info.textContent = '⚠️ Trial exhausted for this tool. Please upgrade to continue.';
+        info.textContent = `⚠️ Trial exhausted for this tool. Please upgrade to continue.`;
     } else if (trialInfo.pages_remaining <= 1) {
         banner.classList.add('warning');
-        info.textContent = `⚠️ Only ${trialInfo.pages_remaining.toFixed(1)} page(s) remaining!`;
+        info.textContent = `⚠️ Only ${trialInfo.pages_remaining.toFixed(isAudio ? 1 : 1)} ${unitFull} remaining!`;
     } else {
-        info.textContent = `${trialInfo.pages_remaining.toFixed(1)} page(s) remaining for this tool.`;
+        info.textContent = `${trialInfo.pages_remaining.toFixed(isAudio ? 1 : 1)} ${unitFull} remaining for this tool.`;
     }
 }
 
@@ -111,10 +114,13 @@ function showPaymentModal(data) {
     const details = document.getElementById('paymentDetails');
     currentPaymentData = data;
 
+    const billUnit = isAudioMode ? 'minutes' : 'pages';
+    const rateUnit = isAudioMode ? 'min' : 'page';
+
     let html = '';
     html += `<div class="error-modal-detail-item">
-        <span class="error-modal-detail-label">Billable Pages:</span>
-        <span class="error-modal-detail-value">${data.billable_pages} pages</span>
+        <span class="error-modal-detail-label">Billable ${billUnit.charAt(0).toUpperCase() + billUnit.slice(1)}:</span>
+        <span class="error-modal-detail-value">${data.billable_pages} ${billUnit}</span>
     </div>`;
 
     if (data.word_count) {
@@ -126,7 +132,7 @@ function showPaymentModal(data) {
 
     html += `<div class="error-modal-detail-item">
         <span class="error-modal-detail-label">Rate:</span>
-        <span class="error-modal-detail-value">₹${(data.estimated_cost / data.billable_pages).toFixed(2)} / page</span>
+        <span class="error-modal-detail-value">₹${(data.estimated_cost / data.billable_pages).toFixed(2)} / ${rateUnit}</span>
     </div>`;
 
     html += `<div class="error-modal-detail-item" style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border);">
@@ -144,10 +150,17 @@ function hidePaymentModal() {
 }
 
 // File handling functions
+let isAudioMode = false;
+
 async function handleFileSelect(file) {
     const fileExt = '.' + file.name.split('.').pop().toLowerCase();
-    if (!currentAcceptTypes.includes(fileExt)) {
-        alert(`Invalid file type. Please upload ${currentAcceptTypes === '.pdf' ? 'PDF files only' : 'PDF or DOCX files'}.`);
+    const acceptTypes = currentAcceptTypes.split(',');
+    if (!acceptTypes.some(t => t.trim() === fileExt)) {
+        if (isAudioMode) {
+            alert('Invalid file type. Please upload .mp3 or .wav audio files only.');
+        } else {
+            alert(`Invalid file type. Please upload ${currentAcceptTypes === '.pdf' ? 'PDF files only' : 'PDF or DOCX files'}.`);
+        }
         return;
     }
 
@@ -171,7 +184,33 @@ async function handleFileSelect(file) {
     document.getElementById('fileFormat').textContent = file.name.split('.').pop().toUpperCase();
     document.getElementById('fileSize').textContent = formatFileSize(file.size);
 
-    if (file.type === 'application/pdf') {
+    if (isAudioMode) {
+        // Show audio icon, hide PDF page count
+        document.getElementById('fileThumbnail').innerHTML = `
+    <div class="file-thumbnail-icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M3 18v-6a9 9 0 0118 0v6M3 18a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3v5zM21 18a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3v5z" />
+        </svg>
+    </div>`;
+        document.getElementById('filePagesItem').style.display = 'none';
+        
+        // Extract and display audio duration
+        const durationItem = document.getElementById('fileDurationItem');
+        if (durationItem) {
+            const audio = new Audio(URL.createObjectURL(file));
+            audio.onloadedmetadata = function() {
+                const minutes = Math.floor(audio.duration / 60);
+                const seconds = Math.floor(audio.duration % 60).toString().padStart(2, '0');
+                document.getElementById('fileDuration').textContent = `${minutes}:${seconds} min`;
+                durationItem.style.display = 'flex';
+                URL.revokeObjectURL(audio.src);
+            };
+        }
+    } else if (file.type === 'application/pdf') {
+        const durationItem = document.getElementById('fileDurationItem');
+        if (durationItem) durationItem.style.display = 'none';
+        
         await generatePDFThumbnail(file);
 
         try {
@@ -185,6 +224,9 @@ async function handleFileSelect(file) {
             document.getElementById('filePagesItem').style.display = 'none';
         }
     } else {
+        const durationItem = document.getElementById('fileDurationItem');
+        if (durationItem) durationItem.style.display = 'none';
+
         document.getElementById('fileThumbnail').innerHTML = `
     <div class="file-thumbnail-icon">
         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -244,6 +286,9 @@ function removeFile() {
     filePreview.classList.remove('active');
     processBtn.disabled = true;
     fileName.textContent = '';
+    
+    const durationItem = document.getElementById('fileDurationItem');
+    if (durationItem) durationItem.style.display = 'none';
 }
 
 // Progress and processing functions
@@ -264,7 +309,10 @@ function pollProgress(pollJobId) {
 
             if (data.percentage === 100 && data.output_file) {
                 clearInterval(interval);
-                showSuccess(data.output_file);
+                // Hide the email delivery notice from progress area
+                const emailNotice = document.getElementById('emailDeliveryNotice');
+                if (emailNotice) emailNotice.style.display = 'none';
+                showSuccess(data.output_file, data.email_sent);
             }
 
             if (data.error) {
@@ -280,8 +328,13 @@ function pollProgress(pollJobId) {
     }, 1000);
 }
 
-function showSuccess(outputFile) {
+function showSuccess(outputFile, emailSent) {
     document.getElementById('successMessage').classList.add('active');
+    // Only show email confirmation if backend confirmed delivery
+    const emailNote = document.querySelector('.email-delivery-success-note');
+    if (emailNote) {
+        emailNote.style.display = emailSent ? 'flex' : 'none';
+    }
     document.getElementById('downloadBtn').onclick = () => {
         window.location.href = `/download/${outputFile}`;
     };
@@ -305,6 +358,11 @@ function resetProgress() {
     progressFill.classList.remove('success');
     document.getElementById('progressText').textContent = 'Initializing... 0%';
     processBtn.disabled = uploadedFile ? false : true;
+    // Reset email delivery notice for next processing
+    const emailNotice = document.getElementById('emailDeliveryNotice');
+    if (emailNotice) emailNotice.style.display = '';
+    const emailNote = document.querySelector('.email-delivery-success-note');
+    if (emailNote) emailNote.style.display = 'none';
 }
 
 // Payment processing
@@ -452,6 +510,8 @@ async function processDocument() {
     formData.append('source_lang', document.getElementById('sourceLang').value);
     formData.append('target_lang', document.getElementById('targetLang').value);
 
+    // Clear any previous success/progress state
+    resetProgress();
     document.getElementById('progressContainer').classList.add('active');
     processBtn.disabled = true;
 
@@ -467,8 +527,8 @@ async function processDocument() {
             jobId = data.job_id;
             // Update trial info if provided
             if (data.trial_info) {
-                updateTrialStatus(data.trial_info);
-            }
+                    updateTrialStatus(data.trial_info, isAudioMode);
+                }
             pollProgress(jobId);
         } else if (data.error === 'Trial limit exceeded') {
             // Check if we can offer payment
@@ -517,17 +577,20 @@ function initEventListeners(userEmail) {
             document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('active'));
             this.classList.add('active');
             selectedMode = this.dataset.mode;
+            isAudioMode = this.dataset.audio === 'true';
 
             // Update trial status for selected mode
             if (trialInfoAllModes[selectedMode]) {
-                updateTrialStatus(trialInfoAllModes[selectedMode]);
+                updateTrialStatus(trialInfoAllModes[selectedMode], isAudioMode);
             }
 
             currentAcceptTypes = this.dataset.accept;
             document.getElementById('fileInput').accept = currentAcceptTypes;
 
             const fileTypeText = document.getElementById('fileTypeText');
-            if (currentAcceptTypes === '.pdf') {
+            if (isAudioMode) {
+                fileTypeText.textContent = 'MP3 or WAV audio files only (Max 50MB)';
+            } else if (currentAcceptTypes === '.pdf') {
                 fileTypeText.textContent = 'PDF files only (Max 50MB)';
             } else {
                 fileTypeText.textContent = 'DOCX files (Max 50MB)';

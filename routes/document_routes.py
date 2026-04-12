@@ -62,94 +62,136 @@ def process_file():
         # Get file extension
         filename = secure_filename(file.filename)
         file_extension = os.path.splitext(filename)[1].lower().strip('.')
-        
-        # Save uploaded file temporarily for validation
+
+        # Validate audio file for mode 6
+        if mode == 6:
+            if file_extension not in ('mp3', 'wav'):
+                return jsonify({
+                    'error': f"Unsupported audio format '.{file_extension}'. "
+                             "Only .mp3 and .wav files are accepted for Audio Transcription."
+                }), 400
         job_id = str(uuid.uuid4())
         input_path = os.path.join(current_app.config['UPLOAD_FOLDER'], f"{job_id}_{filename}")
         file.save(input_path)
         
         PRICING = get_pricing()
-        
-        try:
-            # Calculate page usage based on file type
-            page_usage_info = calculate_page_usage(input_path, file_extension)
-            
-            # Calculate billable pages (for pricing)
-            billable_pages = 0
-            if page_usage_info['file_type'] == 'pdf':
-                billable_pages = page_usage_info['actual_pages']
-            else:
-                # For DOCX, use word count / 550
-                word_count = get_docx_word_count(input_path)
-                billable_pages = calculate_pages_from_words(word_count)
-                # Add word count to usage info for frontend
-                page_usage_info['word_count'] = word_count
-                page_usage_info['billable_pages'] = billable_pages
+        AUDIO_TRIAL_MINUTES = 3  # free trial limit for mode 6
 
-            # Check for payment
-            payment_id = request.form.get('payment_id')
-            is_paid = False
-            
-            if payment_id:
-                # Verify payment (Dummy verification)
-                if payment_id.startswith('pay_'):
+        try:
+            if mode == 6:
+                # ── Audio mode: billing unit = minutes ──────────────────────
+                from processors.audio_processor import AudioProcessor
+                duration_min = AudioProcessor.get_duration_minutes(input_path)
+                import math as _math
+                billable_minutes = _math.ceil(duration_min)
+
+                payment_id = request.form.get('payment_id')
+                is_paid = payment_id and payment_id.startswith('pay_')
+                is_dev_mode = current_app.env == "development"
+
+                if is_paid:
+                    logger.info(f"Paid audio request: {payment_id} for {email} ({duration_min:.2f} min)")
+                    page_usage = billable_minutes
+
+                elif is_dev_mode:
+                    page_usage = billable_minutes
+
+                else:
+                    trial_info = check_trial_available(email, mode)
+                    remaining_min = trial_info['pages_remaining']
+
+                    if duration_min > AUDIO_TRIAL_MINUTES:
+                        if os.path.exists(input_path):
+                            os.remove(input_path)
+                        return jsonify({
+                            'error': 'Trial limit exceeded',
+                            'message': (
+                                f"Your audio is {duration_min:.1f} minutes, "
+                                f"but the free trial allows up to {AUDIO_TRIAL_MINUTES} minutes. "
+                                "Please upgrade to process longer audio files."
+                            ),
+                            'pages_used': trial_info['pages_used'],
+                            'pages_remaining': remaining_min,
+                            'limit': trial_info['limit'],
+                            'billable_pages': billable_minutes,
+                            'estimated_cost': billable_minutes * PRICING.get(mode, 0),
+                            'page_usage': duration_min,
+                        }), 403
+
+                    if remaining_min <= 0:
+                        if os.path.exists(input_path):
+                            os.remove(input_path)
+                        return jsonify({
+                            'error': 'Trial limit exceeded',
+                            'message': 'You have used all your free trial minutes for Audio Transcription.',
+                            'pages_used': trial_info['pages_used'],
+                            'pages_remaining': 0,
+                            'limit': trial_info['limit'],
+                            'billable_pages': billable_minutes,
+                            'estimated_cost': billable_minutes * PRICING.get(mode, 0),
+                        }), 403
+
+                    page_usage = duration_min
+                    increment_trial_usage(email, mode, pages=page_usage)
+
+            else:
+                # ── Document modes 1-5: billing unit = pages ────────────────
+                page_usage_info = calculate_page_usage(input_path, file_extension)
+
+                billable_pages = 0
+                if page_usage_info['file_type'] == 'pdf':
+                    billable_pages = page_usage_info['actual_pages']
+                else:
+                    word_count = get_docx_word_count(input_path)
+                    billable_pages = calculate_pages_from_words(word_count)
+                    page_usage_info['word_count'] = word_count
+                    page_usage_info['billable_pages'] = billable_pages
+
+                payment_id = request.form.get('payment_id')
+                is_paid = False
+                if payment_id and payment_id.startswith('pay_'):
                     is_paid = True
                     logger.info(f"Processing paid request: {payment_id} for {email}")
-            
-            # Skip trial validation in development mode
-            is_dev_mode = current_app.env == "development"
-            
-            if not is_paid and not is_dev_mode:
-                # Check trial availability
-                trial_info = check_trial_available(email, mode)
-                remaining_pages = trial_info['pages_remaining']
-                
-                # Validate against trial limits
-                validation_result = validate_trial_limits(page_usage_info, remaining_pages)
-                
-                # STRICT PAGE LIMIT CHECK (OOM Prevention)
-                # Reject any PDF document > 200 pages immediately to protect server RAM
-                # Word docs are exempted as per user request
-                MAX_PAGES = 200
-                if page_usage_info['file_type'] == 'pdf' and page_usage_info['actual_pages'] > MAX_PAGES:
-                    if os.path.exists(input_path):
-                        os.remove(input_path)
-                    return jsonify({
-                        'error': f'Document exceeds maximum limit of {MAX_PAGES} pages.',
-                        'page_count': page_usage_info['actual_pages']
-                    }), 400
 
-                if not validation_result['valid']:
-                    # Clean up uploaded file
-                    if os.path.exists(input_path):
-                        os.remove(input_path)
-                    
-                    # Return detailed error information with pricing info
-                    error_details = {
-                        'error': 'Trial limit exceeded',
-                        'message': validation_result['message'],
-                        'pages_used': trial_info['pages_used'],
-                        'pages_remaining': trial_info['pages_remaining'],
-                        'limit': trial_info['limit'],
-                        'document_pages': page_usage_info.get('actual_pages'),
-                        'document_chars': page_usage_info.get('char_count'),
-                        'billable_pages': billable_pages,
-                        'estimated_cost': billable_pages * PRICING.get(mode, 0),
-                        'page_usage': validation_result['page_usage']
-                    }
-                    return jsonify(error_details), 403
-                
-                # Store page usage for later increment (only for trial)
-                page_usage = validation_result['page_usage']
-                
-                # Increment trial usage with actual page count
-                increment_trial_usage(email, mode, pages=page_usage)
-            else:
-                # For paid requests, we don't increment trial usage
-                page_usage = billable_pages
-            
+                is_dev_mode = current_app.env == "development"
+
+                if not is_paid and not is_dev_mode:
+                    trial_info = check_trial_available(email, mode)
+                    remaining_pages = trial_info['pages_remaining']
+                    validation_result = validate_trial_limits(page_usage_info, remaining_pages)
+
+                    MAX_PAGES = 200
+                    if page_usage_info['file_type'] == 'pdf' and page_usage_info['actual_pages'] > MAX_PAGES:
+                        if os.path.exists(input_path):
+                            os.remove(input_path)
+                        return jsonify({
+                            'error': f'Document exceeds maximum limit of {MAX_PAGES} pages.',
+                            'page_count': page_usage_info['actual_pages']
+                        }), 400
+
+                    if not validation_result['valid']:
+                        if os.path.exists(input_path):
+                            os.remove(input_path)
+                        error_details = {
+                            'error': 'Trial limit exceeded',
+                            'message': validation_result['message'],
+                            'pages_used': trial_info['pages_used'],
+                            'pages_remaining': trial_info['pages_remaining'],
+                            'limit': trial_info['limit'],
+                            'document_pages': page_usage_info.get('actual_pages'),
+                            'document_chars': page_usage_info.get('char_count'),
+                            'billable_pages': billable_pages,
+                            'estimated_cost': billable_pages * PRICING.get(mode, 0),
+                            'page_usage': validation_result['page_usage']
+                        }
+                        return jsonify(error_details), 403
+
+                    page_usage = validation_result['page_usage']
+                    increment_trial_usage(email, mode, pages=page_usage)
+                else:
+                    page_usage = billable_pages
+
         except Exception as e:
-            # Clean up uploaded file on error
             if os.path.exists(input_path):
                 os.remove(input_path)
             logger.error(f"Error validating document: {e}")
@@ -159,7 +201,6 @@ def process_file():
         language = request.form.get('language')
         source_lang = request.form.get('source_lang')
         target_lang = request.form.get('target_lang')
-        user_prompt = request.form.get('user_prompt', '')  # For mode 6
         
         # Initialize progress
         progress_tracker[job_id] = {
@@ -177,7 +218,7 @@ def process_file():
         # Process in background thread
         thread = threading.Thread(
             target=process_document_background,
-            args=(GLOBAL_GEMINI_EXECUTOR, job_id, mode, input_path, language, source_lang, target_lang, filename, email, user_prompt)
+            args=(GLOBAL_GEMINI_EXECUTOR, job_id, mode, input_path, language, source_lang, target_lang, filename, email)
         )
         thread.daemon = True
         thread.start()
