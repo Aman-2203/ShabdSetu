@@ -42,12 +42,20 @@ def _configure_ffmpeg():
             r"C:/Program Files/ffmpeg/bin/ffmpeg.exe",
             os.path.expanduser(r"~/ffmpeg/bin/ffmpeg.exe"),
         ]
-        for path in candidates:
-            if os.path.exists(path):
-                os.environ["PATH"] = (
-                    os.path.dirname(path) + os.pathsep + os.environ.get("PATH", "")
-                )
-                return path
+    else:
+        # Common Linux/Mac candidate paths
+        candidates = [
+            "/usr/bin/ffmpeg",
+            "/usr/local/bin/ffmpeg",
+            "/opt/homebrew/bin/ffmpeg"
+        ]
+
+    for path in candidates:
+        if os.path.exists(path):
+            os.environ["PATH"] = (
+                os.path.dirname(path) + os.pathsep + os.environ.get("PATH", "")
+            )
+            return path
 
     from shutil import which
     return which("ffmpeg")
@@ -59,8 +67,10 @@ try:
     from pydub import AudioSegment
     if _ffmpeg_path:
         AudioSegment.converter = _ffmpeg_path
-        if platform.system() == 'Windows':
-            AudioSegment.ffprobe = _ffmpeg_path.replace('ffmpeg.exe', 'ffprobe.exe')
+        # Explicitly configure ffprobe path alongside ffmpeg
+        ffmpeg_dir = os.path.dirname(_ffmpeg_path)
+        ffprobe_name = 'ffprobe.exe' if platform.system() == 'Windows' else 'ffprobe'
+        AudioSegment.ffprobe = os.path.join(ffmpeg_dir, ffprobe_name)
     _PYDUB_AVAILABLE = True
 except ImportError:
     _PYDUB_AVAILABLE = False

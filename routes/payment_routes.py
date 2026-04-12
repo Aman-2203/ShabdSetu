@@ -15,7 +15,7 @@ PRICING = {
     3: 6,   # Proofread
     4: 9,   # OCR + Translation (3 + 6)
     5: 6,   # Translation
-    6: 4,   # Audio Transcription (₹4 per minute)
+    6: 10,  # Audio Transcription (₹10 per minute)
 }
 
 # Create blueprint
