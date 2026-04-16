@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
-{% block title %}Login - ShabdSetu{% endblock %}
+{% block title %}Login — ShabdSetu{% endblock %}
+{% block meta_description %}Sign in to ShabdSetu to access AI-powered document processing tools including OCR, proofreading, translation, and audio transcription.{% endblock %}
+{% block robots %}noindex, nofollow{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">

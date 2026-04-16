@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
-{% block title %}Features & Guidelines - ShabdSetu{% endblock %}
+{% block title %}ShabdSetu — AI-Powered OCR, Translation & Transcription for Hindi & Gujarati{% endblock %}
+{% block meta_description %}ShabdSetu offers AI-powered OCR, proofreading, translation, and audio transcription for Hindi, Gujarati & English documents. 99% accuracy, pay-per-use pricing starting ₹3/page.{% endblock %}
+{% block meta_keywords %}Hindi OCR online, Gujarati OCR, AI document proofreading, Hindi to English translation, audio transcription Hindi, speech to text Gujarati, document processing India{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/feature.css') }}">
@@ -41,7 +43,7 @@
         </div>
     </section>
 
-    <section class="section">
+    <section class="section" aria-label="Core Features">
         <div class="section-header">
             <h2 class="section-title">Core Features</h2>
             <p class="section-subtitle">Everything you need to process, proofread, and translate documents with AI
@@ -177,7 +179,7 @@
         </div>
     </section>
 
-    <section class="section">
+    <section class="section" aria-label="Best Practices">
         <div class="section-header">
             <h2 class="section-title">Best Practices</h2>
             <p class="section-subtitle">Follow these guidelines to get the best results from our platform</p>
@@ -311,7 +313,7 @@
         </div>
     </section>
 
-    <section class="section">
+    <section class="section" aria-label="Pro Tips">
         <div class="section-header">
             <h2 class="section-title">Pro Tips</h2>
             <p class="section-subtitle">Expert advice to maximize your results</p>
@@ -398,7 +400,7 @@
         </div>
     </section>
 
-    <section class="section">
+    <section class="section" aria-label="Frequently Asked Questions">
         <div class="section-header">
             <h2 class="section-title">Frequently Asked Questions</h2>
             <p class="section-subtitle">Common questions about our platform</p>
@@ -530,4 +532,88 @@
 
 {% block extra_scripts %}
 <script src="{{ url_for('static', filename='js/feature.js') }}"></script>
+
+<!-- SEO: SoftwareApplication Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "ShabdSetu",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "description": "AI-powered OCR, proofreading, translation, and audio transcription for Hindi, Gujarati, and English documents",
+  "offers": {
+    "@type": "AggregateOffer",
+    "lowPrice": "3",
+    "highPrice": "10",
+    "priceCurrency": "INR",
+    "offerCount": "6"
+  },
+  "featureList": [
+    "OCR for Hindi, Gujarati, English",
+    "AI Proofreading",
+    "Document Translation",
+    "Audio Transcription",
+    "Speech to Text"
+  ]
+}
+</script>
+
+<!-- SEO: FAQ Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What file formats do you support?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For OCR and translation: PDF files. For proofreading and translating existing documents: DOCX files. For Audio Transcription: MP3 and WAV files. All files must be under 50MB."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How accurate is the OCR technology?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Our OCR technology achieves up to 99% accuracy on high-quality documents with clear, legible text."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What languages are supported?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We support Hindi, Gujarati, and English for OCR, proofreading, translation and audio transcription."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does Audio Transcription work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Upload an MP3 or WAV audio file (up to 50MB). Our AI Transcriber converts the speech to text, then our AI refinement engine removes filler words, fixes structure, and produces a publish-ready document — delivered as a formatted DOCX."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long does processing take?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You will be mailed the output document within 12 hours. To track the process, don't close the site window."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my data secure and private?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, we take data security seriously. All documents are automatically deleted from our servers after processing gets over."
+      }
+    }
+  ]
+}
+</script>
 {% endblock %}

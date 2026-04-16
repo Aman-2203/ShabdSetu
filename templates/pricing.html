@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
 {% block title %}Pricing - ShabdSetu{% endblock %}
+{% block meta_description %}ShabdSetu pricing — OCR from ₹3/page, proofreading ₹6/550 words, translation ₹6/550 words, audio transcription ₹10/minute. Free trial included. No subscriptions.{% endblock %}
+{% block meta_keywords %}OCR pricing India, document translation cost, AI proofreading price, audio transcription rate, pay per page OCR, affordable document processing{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/pricing.css') }}">
@@ -274,7 +276,7 @@
         </div>
     </div>
 
-    <section class="faq-section">
+    <section class="faq-section" aria-label="Pricing FAQs">
         <div class="section-header">
             <h2 class="section-title">Pricing FAQs</h2>
             <p class="section-subtitle">Common questions about our pricing</p>
@@ -367,4 +369,46 @@
 
 {% block extra_scripts %}
 <script src="{{ url_for('static', filename='js/pricing.js') }}"></script>
+
+<!-- SEO: Pricing FAQ Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How is a 'page' or 'minute' defined for pricing?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For PDFs, a page equals one PDF page. For Word documents, billing is based on word count (~550 words = 1 page). For Audio Transcription, billing is by the minute — rounded up to the nearest whole minute."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What payment methods do you accept?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We accept all major credit/debit cards, UPI, net banking, and digital wallets. All payments are processed securely through Razorpay."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you offer a free trial?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes! New users get 3 free pages for PDF processing, 10,000 characters free for Word documents, and 3 free minutes for Audio Transcription — all without any payment required."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are there any hidden charges?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No hidden charges. The price you see is the price you pay. We believe in transparent pricing with no surprises."
+      }
+    }
+  ]
+}
+</script>
 {% endblock %}
