@@ -1,10 +1,12 @@
 import os
 import threading
 import logging
+from datetime import datetime
 from config import UPLOAD_FOLDER, OUTPUT_FOLDER, MAX_CONTENT_LENGTH, progress_tracker
 from processors import ProofreadingProcessor, TranslationProcessor, OCRProcessor, AudioProcessor
 from document_handler import DocumentHandler
 from utils import send_document_email
+from db_config import get_jobs_collection
 
 
 logger = logging.getLogger(__name__)
@@ -126,6 +128,25 @@ def process_document_background(thread_pool, job_id, mode, input_path, language,
             'user_email': user_email
         }
         
+        # Update job record in MongoDB — mark as success
+        try:
+            jobs = get_jobs_collection()
+            now = datetime.utcnow()
+            job_doc = jobs.find_one({'job_id': job_id})
+            processing_time = None
+            if job_doc and job_doc.get('created_at'):
+                processing_time = (now - job_doc['created_at']).total_seconds()
+            jobs.update_one(
+                {'job_id': job_id},
+                {'$set': {
+                    'status': 'success',
+                    'completed_at': now,
+                    'processing_time_seconds': processing_time
+                }}
+            )
+        except Exception as e:
+            logger.error(f"Failed to update job record on success: {e}")
+        
         # Automatically send email to user with the processed document
         if user_email and output_filename:
             try:
@@ -154,6 +175,25 @@ def process_document_background(thread_pool, job_id, mode, input_path, language,
             'percentage': 0,
             'error': True
         }
+        # Update job record in MongoDB — mark as failed
+        try:
+            jobs = get_jobs_collection()
+            now = datetime.utcnow()
+            job_doc = jobs.find_one({'job_id': job_id})
+            processing_time = None
+            if job_doc and job_doc.get('created_at'):
+                processing_time = (now - job_doc['created_at']).total_seconds()
+            jobs.update_one(
+                {'job_id': job_id},
+                {'$set': {
+                    'status': 'failed',
+                    'error_message': str(e),
+                    'completed_at': now,
+                    'processing_time_seconds': processing_time
+                }}
+            )
+        except Exception as db_err:
+            logger.error(f"Failed to update job record on failure: {db_err}")
         # Clean up input file and progress tracker even on error
         schedule_file_cleanup(input_path, None, job_id)
     finally:

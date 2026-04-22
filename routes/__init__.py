@@ -6,6 +6,7 @@ from .page_routes import page_bp
 from .payment_routes import payment_bp
 from .document_routes import document_bp
 from .document_routes import bp as main_bp
+from .analytics_routes import analytics_bp
 
 
 def register_blueprints(app):
@@ -15,6 +16,7 @@ def register_blueprints(app):
     app.register_blueprint(payment_bp)
     app.register_blueprint(document_bp)
     app.register_blueprint(main_bp)
+    app.register_blueprint(analytics_bp)
 
 
 __all__ = [
@@ -22,5 +24,6 @@ __all__ = [
     'page_bp', 
     'payment_bp',
     'document_bp',
+    'analytics_bp',
     'register_blueprints'
 ]

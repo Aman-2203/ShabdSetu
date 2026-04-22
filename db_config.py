@@ -31,6 +31,11 @@ def get_database():
             # Create indexes for better performance
             db.users.create_index("email", unique=True)
             db.trial_usage.create_index([("email", 1), ("mode", 1)], unique=True)
+            db.jobs.create_index("job_id", unique=True)
+            db.jobs.create_index("user_email")
+            db.jobs.create_index("created_at")
+            db.jobs.create_index("mode")
+            db.jobs.create_index("status")
             
         except ConnectionFailure as e:
             logger.error(f"Failed to connect to MongoDB: {e}")
@@ -48,3 +53,7 @@ def get_trial_usage_collection():
     db = get_database()
     return db.trial_usage
 
+def get_jobs_collection():
+    """Get jobs collection for analytics tracking"""
+    db = get_database()
+    return db.jobs

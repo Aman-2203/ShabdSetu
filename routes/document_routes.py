@@ -1,6 +1,7 @@
 import os
 import threading
 import uuid
+from datetime import datetime
 from flask import Blueprint, request, jsonify, send_file, session, current_app
 from werkzeug.utils import secure_filename
 import logging
@@ -12,6 +13,7 @@ from utils import (
     calculate_page_usage, validate_trial_limits, send_document_email,
     calculate_pages_from_words, get_docx_word_count
 )
+from db_config import get_jobs_collection
 from .payment_routes import get_pricing
 
 # ==============================================================
@@ -192,6 +194,42 @@ def process_file():
         language = request.form.get('language')
         source_lang = request.form.get('source_lang')
         target_lang = request.form.get('target_lang')
+        
+        # Mode name mapping
+        MODE_NAMES = {
+            1: 'OCR Only', 2: 'OCR + Proofread', 3: 'Proofread',
+            4: 'OCR + Translation', 5: 'Translation', 6: 'Audio Transcription'
+        }
+        
+        # Get file size for analytics
+        file_size_bytes = os.path.getsize(input_path) if os.path.exists(input_path) else 0
+        
+        # Insert job record into MongoDB for analytics
+        try:
+            jobs = get_jobs_collection()
+            job_record = {
+                'job_id': job_id,
+                'user_email': email,
+                'mode': mode,
+                'mode_name': MODE_NAMES.get(mode, f'Mode {mode}'),
+                'language': language or target_lang or 'english',
+                'source_lang': source_lang,
+                'target_lang': target_lang,
+                'original_filename': filename,
+                'file_extension': file_extension,
+                'file_size_bytes': file_size_bytes,
+                'status': 'processing',
+                'error_message': None,
+                'page_usage': page_usage,
+                'is_paid': bool(request.form.get('payment_id', '').startswith('pay_')),
+                'payment_id': request.form.get('payment_id'),
+                'created_at': datetime.utcnow(),
+                'completed_at': None,
+                'processing_time_seconds': None
+            }
+            jobs.insert_one(job_record)
+        except Exception as e:
+            logger.error(f"Failed to insert job record: {e}")
         
         # Initialize progress
         progress_tracker[job_id] = {

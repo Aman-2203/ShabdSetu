@@ -1,0 +1,612 @@
+{% extends "base.html" %}
+
+{% block title %}Analytics Dashboard — ShabdSetu{% endblock %}
+{% block meta_description %}Internal analytics dashboard for ShabdSetu document processing platform.{% endblock %}
+{% block robots %}noindex, nofollow{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/analytics.css') }}">
+{% endblock %}
+
+{% block content %}
+{% if login_mode %}
+<!-- ==================== LOGIN FORM ==================== -->
+<div class="analytics-login-wrapper">
+    <div class="analytics-login-card">
+        <div class="lock-icon">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+        </div>
+        <h1>Analytics Dashboard</h1>
+        <p class="login-subtitle">Enter credentials to access the dashboard</p>
+
+        {% if error %}
+        <div class="login-error">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST" action="{{ url_for('analytics.analytics_login') }}">
+            <div class="form-group">
+                <label for="analytics-username">Username</label>
+                <input type="text" id="analytics-username" name="username" placeholder="Enter username" required
+                    autocomplete="username">
+            </div>
+            <div class="form-group">
+                <label for="analytics-password">Password</label>
+                <input type="password" id="analytics-password" name="password" placeholder="Enter password" required
+                    autocomplete="current-password">
+            </div>
+            <button type="submit" class="btn btn-primary login-btn-submit">Sign In</button>
+        </form>
+    </div>
+</div>
+
+{% else %}
+<!-- ==================== DASHBOARD ==================== -->
+<div class="analytics-dashboard" id="analyticsDashboard">
+
+    <!-- Header -->
+    <div class="dashboard-header">
+        <h1>
+            <span class="dashboard-icon">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                </svg>
+            </span>
+            Analytics Dashboard
+        </h1>
+        <div class="dashboard-header-actions">
+            <div class="refresh-indicator">
+                <span class="refresh-dot"></span>
+                <span id="lastUpdated">Loading...</span>
+            </div>
+            <a href="{{ url_for('analytics.analytics_logout') }}" class="btn-logout-analytics">Logout</a>
+        </div>
+    </div>
+
+    <!-- Loading State -->
+    <div class="loading-overlay" id="loadingState">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Dashboard Content (hidden until data loads) -->
+    <div id="dashboardContent" style="display: none;">
+
+        <!-- KPI Cards Row 1 -->
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-label">Total Jobs Processed</div>
+                <div class="kpi-value" id="kpiTotalJobs">0</div>
+                <div class="kpi-sub" id="kpiJobsToday">0 today</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Registered Users</div>
+                <div class="kpi-value" id="kpiTotalUsers">0</div>
+                <div class="kpi-sub" id="kpiNewUsers">+0 last 30 days</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Total Pages</div>
+                <div class="kpi-value" id="kpiTotalPages">0</div>
+                <div class="kpi-sub" id="kpiPaidFree">0 paid · 0 free</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Revenue</div>
+                <div class="kpi-value">₹<span id="kpiRevenue">0</span></div>
+                <div class="kpi-sub" id="kpiSuccessRate">0% success rate</div>
+            </div>
+        </div>
+
+        <!-- Jobs Per Day (Full Width) -->
+        <div class="charts-grid" style="grid-template-columns: 1fr;">
+            <div class="chart-card full-width">
+                <h3>Activity — Last 30 Days</h3>
+                <div class="chart-container line-chart">
+                    <canvas id="dailyJobsChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mode & Language Breakdown -->
+        <div class="charts-grid">
+            <div class="chart-card">
+                <h3>Processing Mode Breakdown</h3>
+                <div class="chart-container doughnut">
+                    <canvas id="modeChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-card">
+                <h3>Processing Category</h3>
+                <div class="chart-container doughnut">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status & File Size -->
+        <div class="charts-grid">
+            <div class="chart-card">
+                <h3>Job Status</h3>
+                <div style="margin-bottom: 1.25rem;">
+                    <div class="status-bar" id="statusBar"></div>
+                </div>
+                <div class="chart-container doughnut">
+                    <canvas id="statusChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-card">
+                <h3>File / Document Size</h3>
+                <div class="chart-container bar-chart">
+                    <canvas id="fileSizeChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Users -->
+        <div class="table-card">
+            <h3>Top Users by Volume</h3>
+            <div id="topUsersContent"></div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block extra_scripts %}
+{% if not login_mode %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script>
+(function () {
+    'use strict';
+
+    const REFRESH_INTERVAL = 30000;
+    let charts = {};
+
+    // ==================== THEME COLORS ====================
+    function getThemeColors() {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        return {
+            text: isDark ? '#f5f5f7' : '#1d1d1f',
+            textSecondary: '#86868b',
+            grid: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)',
+            cardBg: isDark ? '#1c1c1e' : '#ffffff',
+            colors: [
+                '#0071e3', '#34c759', '#af52de', '#ff9f0a',
+                '#ff3b30', '#5ac8fa', '#ff2d55', '#64d2ff'
+            ]
+        };
+    }
+
+    function setChartDefaults() {
+        const theme = getThemeColors();
+        const isMobile = window.innerWidth <= 640;
+        const isVerySmall = window.innerWidth <= 380;
+        Chart.defaults.color = theme.textSecondary;
+        Chart.defaults.font.family = "'Inter', -apple-system, sans-serif";
+        Chart.defaults.font.size = isVerySmall ? 9 : (isMobile ? 10 : 11);
+        Chart.defaults.plugins.legend.labels.usePointStyle = true;
+        Chart.defaults.plugins.legend.labels.pointStyleWidth = isMobile ? 6 : 8;
+        Chart.defaults.plugins.legend.labels.padding = isMobile ? 8 : 16;
+        Chart.defaults.plugins.legend.labels.font = { size: isVerySmall ? 9 : (isMobile ? 10 : 11) };
+    }
+
+    // ==================== ANIMATE COUNT ====================
+    function animateCount(el, target, prefix) {
+        prefix = prefix || '';
+        const duration = 800;
+        const start = performance.now();
+        const initial = parseFloat(el.textContent.replace(/[^\d.]/g, '')) || 0;
+
+        function update(now) {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const current = initial + (target - initial) * eased;
+            const display = Number.isInteger(target) ? Math.round(current) : current.toFixed(1);
+            el.textContent = prefix + display.toLocaleString();
+            if (progress < 1) requestAnimationFrame(update);
+        }
+        requestAnimationFrame(update);
+    }
+
+    // ==================== FETCH DATA ====================
+    async function fetchAnalytics() {
+        try {
+            const res = await fetch('/api/gurudev');
+            if (!res.ok) throw new Error('Failed to fetch');
+            const data = await res.json();
+            if (data.error) throw new Error(data.error);
+            renderDashboard(data);
+        } catch (err) {
+            console.error('Analytics fetch error:', err);
+        }
+    }
+
+    // ==================== RENDER DASHBOARD ====================
+    function renderDashboard(data) {
+        const theme = getThemeColors();
+
+        document.getElementById('loadingState').style.display = 'none';
+        document.getElementById('dashboardContent').style.display = 'block';
+
+        const now = new Date();
+        document.getElementById('lastUpdated').textContent =
+            'Updated ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+        // ---- KPI Cards ----
+        animateCount(document.getElementById('kpiTotalJobs'), data.total_jobs);
+        document.getElementById('kpiJobsToday').textContent = data.jobs_today + ' today';
+
+        animateCount(document.getElementById('kpiTotalUsers'), data.total_users);
+        document.getElementById('kpiNewUsers').textContent = '+' + data.new_users_30d + ' last 30 days';
+
+        animateCount(document.getElementById('kpiTotalPages'), data.total_pages);
+        document.getElementById('kpiPaidFree').textContent =
+            data.paid_vs_free.paid + ' paid · ' + data.paid_vs_free.free + ' free jobs';
+
+        animateCount(document.getElementById('kpiRevenue'), data.total_revenue);
+        document.getElementById('kpiSuccessRate').textContent =
+            data.status.success_rate + '% success rate';
+
+        // ---- Status Bar ----
+        document.getElementById('statusBar').innerHTML = `
+            <div class="status-item">
+                <span class="status-dot success"></span>
+                <span class="status-count">${data.status.success}</span>
+                <span class="status-label">Success</span>
+            </div>
+            <div class="status-item">
+                <span class="status-dot failed"></span>
+                <span class="status-count">${data.status.failed}</span>
+                <span class="status-label">Failed</span>
+            </div>
+            <div class="status-item">
+                <span class="status-dot processing"></span>
+                <span class="status-count">${data.status.processing}</span>
+                <span class="status-label">Processing</span>
+            </div>
+        `;
+
+        // ---- Charts ----
+        renderLineChart('dailyJobsChart', data.daily_jobs, data.user_signups_daily, theme);
+        renderDoughnutChart('modeChart', data.mode_breakdown, 'mode', theme);
+        renderDoughnutChart('categoryChart', data.category_breakdown, 'category', theme);
+        renderStatusChart('statusChart', data.status, theme);
+        renderBarChart('fileSizeChart', data.file_size_distribution, theme);
+        renderTopUsersTable(data.top_users);
+    }
+
+    // ==================== CHART RENDERERS ====================
+
+    function renderLineChart(canvasId, dailyData, signupData, theme) {
+        const ctx = document.getElementById(canvasId);
+        if (charts[canvasId]) charts[canvasId].destroy();
+
+        const labels = dailyData.map(d => {
+            const date = new Date(d.date);
+            return date.toLocaleDateString('en-IN', { month: 'short', day: 'numeric' });
+        });
+        const jobValues = dailyData.map(d => d.count);
+        const signupValues = signupData ? signupData.map(d => d.count) : [];
+
+        const datasets = [{
+            label: 'Jobs',
+            data: jobValues,
+            borderColor: theme.colors[0],
+            backgroundColor: theme.colors[0] + '18',
+            fill: true,
+            tension: 0.4,
+            borderWidth: 2.5,
+            pointRadius: 0,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: theme.colors[0],
+            pointHoverBorderColor: theme.cardBg,
+            pointHoverBorderWidth: 2
+        }];
+
+        if (signupValues.length > 0) {
+            datasets.push({
+                label: 'New Users',
+                data: signupValues,
+                borderColor: theme.colors[1],
+                backgroundColor: theme.colors[1] + '12',
+                fill: true,
+                tension: 0.4,
+                borderWidth: 2,
+                pointRadius: 0,
+                pointHoverRadius: 4,
+                pointHoverBackgroundColor: theme.colors[1],
+                pointHoverBorderColor: theme.cardBg,
+                pointHoverBorderWidth: 2,
+                borderDash: [4, 4]
+            });
+        }
+
+        const isMobile = window.innerWidth <= 640;
+
+        charts[canvasId] = new Chart(ctx, {
+            type: 'line',
+            data: { labels, datasets },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: { intersect: false, mode: 'index' },
+                plugins: {
+                    legend: {
+                        display: datasets.length > 1,
+                        position: 'top',
+                        labels: { font: { size: isMobile ? 10 : 11 }, padding: isMobile ? 8 : 16 }
+                    },
+                    tooltip: {
+                        backgroundColor: theme.cardBg,
+                        titleColor: theme.text,
+                        bodyColor: theme.text,
+                        borderColor: theme.grid,
+                        borderWidth: 1,
+                        cornerRadius: 10,
+                        padding: isMobile ? 8 : 12
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: { maxTicksLimit: isMobile ? 6 : 10, color: theme.textSecondary, font: { size: isMobile ? 8 : 10 } },
+                        border: { display: false }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: theme.grid },
+                        ticks: { precision: 0, color: theme.textSecondary, font: { size: isMobile ? 8 : 10 } },
+                        border: { display: false }
+                    }
+                }
+            }
+        });
+    }
+
+    function renderDoughnutChart(canvasId, breakdown, key, theme) {
+        const ctx = document.getElementById(canvasId);
+        if (charts[canvasId]) charts[canvasId].destroy();
+
+        if (!breakdown || breakdown.length === 0) {
+            ctx.parentElement.innerHTML = '<div class="empty-state"><p>No data yet</p></div>';
+            return;
+        }
+
+        const labels = breakdown.map(b => b[key]);
+        const values = breakdown.map(b => b.count);
+
+        const isMobile = window.innerWidth <= 640;
+
+        charts[canvasId] = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels,
+                datasets: [{
+                    data: values,
+                    backgroundColor: theme.colors.slice(0, labels.length),
+                    borderWidth: 0,
+                    hoverOffset: isMobile ? 4 : 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                cutout: '65%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { padding: isMobile ? 8 : 14, font: { size: isMobile ? 9 : 11 } }
+                    },
+                    tooltip: {
+                        backgroundColor: theme.cardBg,
+                        titleColor: theme.text,
+                        bodyColor: theme.text,
+                        borderColor: theme.grid,
+                        borderWidth: 1,
+                        cornerRadius: 10,
+                        padding: isMobile ? 8 : 12
+                    }
+                }
+            }
+        });
+    }
+
+    function renderStatusChart(canvasId, status, theme) {
+        const ctx = document.getElementById(canvasId);
+        if (charts[canvasId]) charts[canvasId].destroy();
+
+        const cs = getComputedStyle(document.documentElement);
+
+        const isMobile = window.innerWidth <= 640;
+
+        charts[canvasId] = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Success', 'Failed', 'Processing'],
+                datasets: [{
+                    data: [status.success, status.failed, status.processing],
+                    backgroundColor: [
+                        cs.getPropertyValue('--accent-green').trim() || '#34c759',
+                        cs.getPropertyValue('--error').trim() || '#ff3b30',
+                        cs.getPropertyValue('--accent-amber').trim() || '#ff9f0a'
+                    ],
+                    borderWidth: 0,
+                    hoverOffset: isMobile ? 4 : 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                cutout: '65%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { padding: isMobile ? 8 : 14, font: { size: isMobile ? 9 : 11 } }
+                    },
+                    tooltip: {
+                        backgroundColor: theme.cardBg,
+                        titleColor: theme.text,
+                        bodyColor: theme.text,
+                        borderColor: theme.grid,
+                        borderWidth: 1,
+                        cornerRadius: 10,
+                        padding: isMobile ? 8 : 12
+                    }
+                }
+            }
+        });
+    }
+
+    function renderBarChart(canvasId, sizeData, theme) {
+        const ctx = document.getElementById(canvasId);
+        if (charts[canvasId]) charts[canvasId].destroy();
+
+        if (!sizeData || sizeData.length === 0) {
+            ctx.parentElement.innerHTML = '<div class="empty-state"><p>No data yet</p></div>';
+            return;
+        }
+
+        const labels = sizeData.map(s => s.label);
+        const values = sizeData.map(s => s.count);
+        const bgColors = labels.map((_, i) => theme.colors[i % theme.colors.length] + '99');
+        const borderColors = labels.map((_, i) => theme.colors[i % theme.colors.length]);
+
+        const isMobile = window.innerWidth <= 640;
+
+        charts[canvasId] = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels,
+                datasets: [{
+                    label: 'Documents',
+                    data: values,
+                    backgroundColor: bgColors,
+                    borderColor: borderColors,
+                    borderWidth: 1.5,
+                    borderRadius: isMobile ? 4 : 8,
+                    borderSkipped: false,
+                    barPercentage: 0.6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: theme.cardBg,
+                        titleColor: theme.text,
+                        bodyColor: theme.text,
+                        borderColor: theme.grid,
+                        borderWidth: 1,
+                        cornerRadius: 10,
+                        padding: isMobile ? 8 : 12
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: theme.textSecondary, font: { size: isMobile ? 8 : 11 } },
+                        border: { display: false }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: theme.grid },
+                        ticks: { precision: 0, color: theme.textSecondary, font: { size: isMobile ? 8 : 11 } },
+                        border: { display: false }
+                    }
+                }
+            }
+        });
+    }
+
+    // ==================== TOP USERS TABLE ====================
+    function renderTopUsersTable(users) {
+        const container = document.getElementById('topUsersContent');
+
+        if (!users || users.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-state-icon">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                    </div>
+                    <h3>No users yet</h3>
+                    <p>User data will appear once jobs are processed.</p>
+                </div>`;
+            return;
+        }
+
+        let html = `<div class="table-scroll-wrapper"><table class="analytics-table">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>User</th>
+                    <th style="text-align:right">Jobs</th>
+                    <th style="text-align:right">Pages</th>
+                    <th style="text-align:right">Spent</th>
+                </tr>
+            </thead>
+            <tbody>`;
+
+        users.forEach((user, i) => {
+            const rank = i + 1;
+            let rankClass = 'default';
+            if (rank === 1) rankClass = 'gold';
+            else if (rank === 2) rankClass = 'silver';
+            else if (rank === 3) rankClass = 'bronze';
+
+            const spent = user.total_spent > 0 ? '₹' + user.total_spent.toLocaleString() : '—';
+
+            html += `<tr>
+                <td><span class="rank-badge ${rankClass}">${rank}</span></td>
+                <td>${user.email_masked}</td>
+                <td style="text-align:right; font-weight:600">${user.count}</td>
+                <td style="text-align:right">${user.total_pages}</td>
+                <td style="text-align:right">${spent}</td>
+            </tr>`;
+        });
+
+        html += '</tbody></table></div>';
+        container.innerHTML = html;
+    }
+
+    // ==================== THEME CHANGE LISTENER ====================
+    const themeObserver = new MutationObserver(() => {
+        setChartDefaults();
+        fetchAnalytics();
+    });
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['data-theme']
+    });
+
+    // ==================== RESIZE HANDLER ====================
+    let resizeTimer;
+    let lastWidth = window.innerWidth;
+    window.addEventListener('resize', function () {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function () {
+            // Only re-render if crossing a breakpoint threshold
+            const newWidth = window.innerWidth;
+            const crossedMobile = (lastWidth <= 640) !== (newWidth <= 640);
+            const crossedSmall = (lastWidth <= 380) !== (newWidth <= 380);
+            if (crossedMobile || crossedSmall) {
+                setChartDefaults();
+                fetchAnalytics();
+            }
+            lastWidth = newWidth;
+        }, 250);
+    });
+
+    // ==================== INIT ====================
+    setChartDefaults();
+    fetchAnalytics();
+    setInterval(fetchAnalytics, REFRESH_INTERVAL);
+
+})();
+</script>
+{% endif %}
+{% endblock %}
