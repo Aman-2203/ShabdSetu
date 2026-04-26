@@ -1,0 +1,425 @@
+{% extends "base.html" %}
+
+{% block title %}ShabdSetu — Upload Once. Get a Publish-Ready Document. Hindi & Gujarati OCR{% endblock %}
+{% block meta_description %}ShabdSetu transforms scanned Hindi & Gujarati documents and audio into clean, translated,
+proofread Word files — ready for editing, publishing, or printing. 99% OCR accuracy.{% endblock %}
+{% block meta_keywords %}Hindi OCR, Gujarati OCR, document translation, AI proofreading, audio transcription Hindi,
+speech to text Gujarati, scanned document to Word, Hindi document processing, publish ready documents{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/homepage.css') }}">
+{% endblock %}
+
+{% block content %}
+<!-- ==================== HERO SECTION ==================== -->
+<section class="hp-hero" id="hero">
+    <div class="container">
+        <h1 class="hp-hero-headline">Upload Once.<br><span class="hp-gradient-text">Get a Publish-Ready Document.</span>
+        </h1>
+        <p class="hp-hero-sub">ShabdSetu transforms your scanned Hindi &amp; Gujarati documents <strong>and audio
+                recordings</strong> into clean, translated, proofread Word files &mdash; ready for editing, publishing,
+            or printing. No retyping. No manual cleanup.</p>
+        <a href="/tool" class="btn btn-primary hp-hero-cta" id="heroCta">
+            <span>Start Processing</span>
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+        </a>
+
+        <!-- Visual Anchor: Floating Document Mockup -->
+        <div class="hp-hero-visual">
+            <div class="hp-hero-doc hp-hero-doc-back">
+                <div class="hp-hero-doc-bar" style="width:70%;background:var(--accent-purple);opacity:0.5"></div>
+                <div class="hp-hero-doc-line" style="width:85%"></div>
+                <div class="hp-hero-doc-line" style="width:60%"></div>
+                <div class="hp-hero-doc-line" style="width:75%"></div>
+            </div>
+            <div class="hp-hero-doc hp-hero-doc-mid">
+                <div class="hp-hero-doc-bar" style="width:50%;background:var(--accent-amber);opacity:0.6"></div>
+                <div class="hp-hero-doc-line" style="width:90%"></div>
+                <div class="hp-hero-doc-line" style="width:65%"></div>
+                <div class="hp-hero-doc-line" style="width:80%"></div>
+                <div class="hp-hero-doc-line" style="width:50%"></div>
+            </div>
+            <div class="hp-hero-doc hp-hero-doc-front">
+                <div class="hp-hero-doc-badge">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span>Publish-Ready</span>
+                </div>
+                <div class="hp-hero-doc-bar" style="width:60%;background:var(--accent-blue)"></div>
+                <div class="hp-hero-doc-line" style="width:90%"></div>
+                <div class="hp-hero-doc-line" style="width:75%"></div>
+                <div class="hp-hero-doc-line" style="width:85%"></div>
+                <div class="hp-hero-doc-line" style="width:55%"></div>
+                <div class="hp-hero-doc-line" style="width:80%"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== PROBLEM STATEMENT ==================== -->
+<section class="hp-problem" id="problem">
+    <div class="container">
+        <div class="hp-problem-card">
+            <div class="hp-problem-accent"></div>
+            <p>Most OCR tools just extract messy text and leave you to fix it. Audio transcription tools give you raw,
+                unedited dumps. <strong>ShabdSetu goes further</strong> &mdash; whether it's a scanned page or a
+                recorded interview, we clean, translate, and proofread it, then deliver a formatted Word document you
+                can actually use.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== PROCESS FLOW ==================== -->
+<section class="hp-process" id="process">
+    <div class="container">
+        <div class="hp-section-header">
+            <h2>From Upload to Publish-Ready in One Step</h2>
+        </div>
+
+        <div class="hp-flow">
+            <div class="hp-flow-step">
+                <div class="hp-flow-icon" style="--step-color: var(--accent-blue);">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                    </svg>
+                </div>
+                <div class="hp-flow-num">1</div>
+                <h3>Upload</h3>
+                <p>Scanned PDF, DOCX, or audio file (MP3/WAV)</p>
+            </div>
+
+            <div class="hp-flow-connector">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </div>
+
+            <div class="hp-flow-step">
+                <div class="hp-flow-icon" style="--step-color: var(--accent-purple);">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                </div>
+                <div class="hp-flow-num">2</div>
+                <h3>We Process</h3>
+                <p>AI extracts, cleans, translates & proofreads your content</p>
+            </div>
+
+            <div class="hp-flow-connector">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </div>
+
+            <div class="hp-flow-step">
+                <div class="hp-flow-icon" style="--step-color: var(--accent-green);">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                </div>
+                <div class="hp-flow-num">3</div>
+                <h3>We Deliver</h3>
+                <p>Clean, formatted Word document in your inbox</p>
+            </div>
+
+            <div class="hp-flow-connector">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </div>
+
+            <div class="hp-flow-step">
+                <div class="hp-flow-icon" style="--step-color: var(--accent-amber);">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <div class="hp-flow-num">4</div>
+                <h3>You Focus</h3>
+                <p>On design, editing, and publishing. Not typing.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== WHO IT'S FOR ==================== -->
+<section class="hp-audience" id="audience">
+    <div class="container">
+        <div class="hp-section-header">
+            <h2>Built for People Who Work With Indian Language Documents</h2>
+        </div>
+
+        <div class="hp-audience-grid">
+            <div class="hp-audience-card">
+                <div class="hp-audience-icon" style="--icon-color: var(--accent-blue);">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                    </svg>
+                </div>
+                <h3>Publishers &amp; Print Houses</h3>
+                <p>Digitize Hindi/Gujarati books and manuscripts without retyping a single word</p>
+            </div>
+
+            <div class="hp-audience-card">
+                <div class="hp-audience-icon" style="--icon-color: var(--accent-amber);">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                    </svg>
+                </div>
+                <h3>Journalists &amp; Media</h3>
+                <p>Turn recorded Hindi interviews into polished, print-ready articles</p>
+            </div>
+
+            <div class="hp-audience-card">
+                <div class="hp-audience-icon" style="--icon-color: var(--accent-purple);">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
+                    </svg>
+                </div>
+                <h3>Legal &amp; Government</h3>
+                <p>Convert regional language case files and records into editable documents</p>
+            </div>
+
+            <div class="hp-audience-card">
+                <div class="hp-audience-icon" style="--icon-color: var(--accent-green);">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
+                    </svg>
+                </div>
+                <h3>Cultural &amp; Religious Orgs</h3>
+                <p>Preserve Gujarati scriptures and heritage texts digitally</p>
+            </div>
+
+            <div class="hp-audience-card">
+                <div class="hp-audience-icon" style="--icon-color: var(--accent-red);">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                </div>
+                <h3>Researchers &amp; Academics</h3>
+                <p>Extract and translate content from regional language archives</p>
+            </div>
+
+            <div class="hp-audience-card">
+                <div class="hp-audience-icon" style="--icon-color: #ff6b8a;">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                    </svg>
+                </div>
+                <h3>Podcasters &amp; YouTubers</h3>
+                <p>Transcribe Hindi/Gujarati audio recordings into formatted blogs, show notes, or subtitles</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== COMPARISON TABLE ==================== -->
+<section class="hp-compare" id="compare">
+    <div class="container">
+        <div class="hp-section-header">
+            <h2>Not Just OCR. A Complete Document Pipeline.</h2>
+        </div>
+
+        <div class="hp-compare-table-wrap">
+            <table class="hp-compare-table" id="comparisonTable">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th class="hp-compare-others">Others</th>
+                        <th class="hp-compare-us">ShabdSetu</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Text Extraction</td>
+                        <td class="hp-compare-others">Extract raw text</td>
+                        <td class="hp-compare-us">
+                            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                    d="M5 13l4 4L19 7" />
+                            </svg>
+                            Extract + clean + proofread
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Error Handling</td>
+                        <td class="hp-compare-others">You fix errors manually</td>
+                        <td class="hp-compare-us">
+                            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                    d="M5 13l4 4L19 7" />
+                            </svg>
+                            AI fixes errors automatically
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Output Format</td>
+                        <td class="hp-compare-others">Plain text output</td>
+                        <td class="hp-compare-us">
+                            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                    d="M5 13l4 4L19 7" />
+                            </svg>
+                            Formatted Word file (.docx)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Language Support</td>
+                        <td class="hp-compare-others">English only</td>
+                        <td class="hp-compare-us">
+                            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                    d="M5 13l4 4L19 7" />
+                            </svg>
+                            Hindi, Gujarati &amp; English
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Audio Support</td>
+                        <td class="hp-compare-others">No audio support</td>
+                        <td class="hp-compare-us">
+                            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                    d="M5 13l4 4L19 7" />
+                            </svg>
+                            Audio → polished document
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+
+<!-- ==================== BEFORE & AFTER ==================== -->
+<section class="hp-before-after" id="beforeAfter">
+    <div class="container">
+        <div class="hp-section-header">
+            <h2>See the Difference</h2>
+            <p class="hp-section-sub">From a blurry scanned page to a clean, publish-ready document.</p>
+        </div>
+
+        <div class="hp-ba-grid">
+            <div class="hp-ba-panel hp-ba-before">
+                <div class="hp-ba-label">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                    Before
+                </div>
+                <div class="hp-ba-content">
+                    <img src="{{ url_for('static', filename='before.jpg') }}"
+                        alt="Blurry scanned Hindi PDF with messy text" class="hp-ba-img">
+                    <p class="hp-ba-caption">Scanned Gujarati PDF — unusable as-is</p>
+                </div>
+            </div>
+
+            <div class="hp-ba-divider">
+                <div class="hp-ba-divider-line"></div>
+                <div class="hp-ba-divider-icon">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                </div>
+                <div class="hp-ba-divider-line"></div>
+            </div>
+
+            <div class="hp-ba-panel hp-ba-after">
+                <div class="hp-ba-label">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    After
+                </div>
+                <div class="hp-ba-content">
+                    <img src="{{ url_for('static', filename='after.jpg') }}"
+                        alt="Clean formatted Word document produced by ShabdSetu" class="hp-ba1-img">
+                    <p class="hp-ba-caption">Clean, formatted, translated Word document &mdash; ready for publishing</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== FINAL CTA ==================== -->
+<section class="hp-final-cta" id="finalCta">
+    <div class="container">
+        <div class="hp-final-cta-inner">
+            <div class="hp-final-cta-badge">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+                </svg>
+                <span>Free Trial — No Credit Card Required</span>
+            </div>
+            <h2>Try Before You Pay</h2>
+            <p>We offer a <strong>free trial with limited units</strong> so you can experience publish-ready output
+                before committing. No software to install &mdash; just upload your file and see the magic.</p>
+            <a href="/tool" class="btn hp-final-cta-btn" id="finalCtaBtn">
+                <span>Start Free Trial</span>
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<!-- SEO: WebSite SearchAction Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "ShabdSetu",
+  "url": "https://shabdsetu.in",
+  "description": "AI-powered OCR, proofreading, translation, and audio transcription for Hindi, Gujarati, and English documents",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://shabdsetu.in/?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+
+<script>
+    // Intersection Observer for scroll-reveal animations
+    document.addEventListener('DOMContentLoaded', () => {
+        const revealEls = document.querySelectorAll(
+            '.hp-flow-step, .hp-audience-card, .hp-ba-panel, .hp-problem-card, .hp-compare-table-wrap'
+        );
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('hp-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+        revealEls.forEach((el, i) => {
+            el.style.transitionDelay = `${i * 0.06}s`;
+            observer.observe(el);
+        });
+    });
+</script>
+{% endblock %}

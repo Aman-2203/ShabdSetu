@@ -7,10 +7,12 @@
     <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
 
     <!-- SEO: Meta description (overrideable per page) -->
-    <meta name="description" content="{% block meta_description %}ShabdSetu — AI-powered OCR, proofreading, translation, and audio transcription for Hindi, Gujarati, and English documents. Process documents with 99% accuracy.{% endblock %}">
+    <meta name="description"
+        content="{% block meta_description %}ShabdSetu — AI-powered OCR, proofreading, translation, and audio transcription for Hindi, Gujarati, and English documents. Process documents with 99% accuracy.{% endblock %}">
 
     <!-- SEO: Meta keywords (overrideable per page) -->
-    <meta name="keywords" content="{% block meta_keywords %}OCR, Hindi OCR, Gujarati OCR, document translation, AI proofreading, audio transcription, speech to text, Hindi translation, Gujarati translation, document processing{% endblock %}">
+    <meta name="keywords"
+        content="{% block meta_keywords %}OCR, Hindi OCR, Gujarati OCR, document translation, AI proofreading, audio transcription, speech to text, Hindi translation, Gujarati translation, document processing{% endblock %}">
 
     <!-- SEO: Author -->
     <meta name="author" content="ShabdSetu">
@@ -27,7 +29,8 @@
     <meta property="og:description" content="{% block og_description %}{{ self.meta_description() }}{% endblock %}">
     <meta property="og:url" content="{{ request.url }}">
     <meta property="og:site_name" content="ShabdSetu">
-    <meta property="og:image" content="{% block og_image %}{{ url_for('static', filename='og-image.png', _external=True) }}{% endblock %}">
+    <meta property="og:image"
+        content="{% block og_image %}{{ url_for('static', filename='og-image.png', _external=True) }}{% endblock %}">
     <meta property="og:locale" content="en_IN">
 
     <!-- Twitter Card -->
@@ -80,8 +83,10 @@
 
             <nav>
                 <ul class="nav-menu" id="navMenu">
+                    <li><a href="/" class="nav-link">Home</a></li>
                     <li><a href="/features" class="nav-link">Features</a></li>
                     <li><a href="/pricing" class="nav-link">Pricing</a></li>
+                    <li><a href="/blog" class="nav-link">Blog</a></li>
                     <li><a href="/tool" class="nav-link">Tool</a></li>
                     <li><a href="/contactus" class="nav-link">Contact Us</a></li>
                     {% if session.get('user_email') %}
@@ -121,21 +126,35 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p class="footer-tagline">AI-powered document processing for the modern world. Transform, translate, and
-                perfect your documents with ease.</p>
-
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>Links</h4>
-                    <ul>
-                        <li><a href="/features">Features</a></li>
-                        <li><a href="/pricing">Pricing</a></li>
-                        <li><a href="/tool">Tool</a></li>
-                        <li><a href="/contactus">Contact Us</a></li>
-                        <li><a href="/terms&conditions">Terms & Conditions</a></li>
-                    </ul>
-                </div>
+            <div class="footer-brand">
+                <a href="/" class="footer-logo">
+                    <div class="footer-logo-icon">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                    </div>
+                    <span>ShabdSetu</span>
+                </a>
+                <p class="footer-tagline">AI-powered document processing tool for Indian languages.<br>
+                    Transform, translate, and transcribe your documents with ease.</p>
             </div>
+
+            <nav class="footer-links" aria-label="Footer navigation">
+                <a href="/">Home</a>
+                <span class="footer-dot" aria-hidden="true"></span>
+                <a href="/features">Features</a>
+                <span class="footer-dot" aria-hidden="true"></span>
+                <a href="/pricing">Pricing</a>
+                <span class="footer-dot" aria-hidden="true"></span>
+                <a href="/blog">Blog</a>
+                <span class="footer-dot" aria-hidden="true"></span>
+                <a href="/tool">Tool</a>
+                <span class="footer-dot" aria-hidden="true"></span>
+                <a href="/contactus">Contact Us</a>
+                <span class="footer-dot" aria-hidden="true"></span>
+                <a href="/terms&conditions">Terms & Conditions</a>
+            </nav>
 
             <div class="footer-bottom">
                 <p>&copy; 2026 ShabdSetu. All rights reserved.</p>

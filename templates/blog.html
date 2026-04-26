@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+
+{% block title %}Blog — ShabdSetu | AI Document Processing Insights{% endblock %}
+{% block meta_description %}Insights on Indian language AI, OCR, document digitization, Hindi & Gujarati translation, and audio transcription — from the ShabdSetu team.{% endblock %}
+{% block meta_keywords %}ShabdSetu blog, Hindi OCR tips, Gujarati document digitization, AI translation insights, audio transcription guide, Indian language technology{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/blog.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <!-- ==================== HERO ==================== -->
+    <section class="blog-hero" id="blogHero">
+        <h1>ShabdSetu <span class="blog-hero-gradient">Blog</span></h1>
+        <p>Insights on Indian language AI, OCR, and document processing</p>
+    </section>
+
+    <!-- ==================== FEATURED POST ==================== -->
+    <section class="blog-featured" id="blogFeatured">
+        {% for post in posts if post.featured %}
+        <a href="/blog/{{ post.slug }}" class="blog-featured-card" id="featuredCard">
+            <div class="blog-featured-img">
+                <div class="blog-featured-img-icon">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                </div>
+            </div>
+            <div class="blog-featured-body">
+                <div class="blog-featured-badge">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                    </svg>
+                    Featured
+                </div>
+                <h2>{{ post.title }}</h2>
+                <p class="blog-featured-excerpt">{{ post.excerpt }}</p>
+                <div class="blog-featured-meta">
+                    <span>
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        {{ post.read_time }}
+                    </span>
+                    <span>
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" /></svg>
+                        {{ post.category }}
+                    </span>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </section>
+
+    <!-- ==================== MORE POSTS ==================== -->
+    <section class="blog-grid-section" id="blogGrid">
+        <div class="blog-grid">
+            {% for post in posts if not post.featured %}
+            <a href="/blog/{{ post.slug }}" class="blog-card" id="blogCard{{ loop.index }}">
+                <div class="blog-card-img {{ post.img_class }}">
+                    <div class="blog-card-img-icon">
+                        {% if post.slug == 'hindi-gujarati-audio-transcription' %}
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                        </svg>
+                        {% else %}
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+                        </svg>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="blog-card-body">
+                    <span class="blog-card-category {{ post.cat_class }}">{{ post.category }}</span>
+                    <h3>{{ post.title }}</h3>
+                    <p class="blog-card-excerpt">{{ post.excerpt }}</p>
+                    <div class="blog-card-meta">
+                        <span>
+                            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            {{ post.read_time }}
+                        </span>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- ==================== TOPICS ==================== -->
+    <section class="blog-topics" id="blogTopics">
+        <h3>Topics We Cover</h3>
+        <div class="blog-topics-pills">
+            <span class="blog-topic-pill">OCR</span>
+            <span class="blog-topic-pill">Hindi</span>
+            <span class="blog-topic-pill">Gujarati</span>
+            <span class="blog-topic-pill">Translation</span>
+            <span class="blog-topic-pill">Audio Transcription</span>
+            <span class="blog-topic-pill">Document Digitization</span>
+            <span class="blog-topic-pill">AI Proofreading</span>
+            <span class="blog-topic-pill">Publishing</span>
+        </div>
+    </section>
+
+</div>
+
+<!-- SEO: Blog Structured Data -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "ShabdSetu Blog",
+    "description": "Insights on Indian language AI, OCR, and document processing",
+    "url": "https://shabdsetu.in/blog",
+    "publisher": {
+        "@type": "Organization",
+        "name": "ShabdSetu",
+        "url": "https://shabdsetu.in"
+    },
+    "blogPost": [
+        {% for post in posts %}
+        {
+            "@type": "BlogPosting",
+            "headline": "{{ post.title }}",
+            "description": "{{ post.excerpt }}",
+            "url": "https://shabdsetu.in/blog/{{ post.slug }}",
+            "author": {
+                "@type": "Organization",
+                "name": "ShabdSetu"
+            }
+        }{% if not loop.last %},{% endif %}
+        {% endfor %}
+    ]
+}
+</script>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const revealEls = document.querySelectorAll(
+            '.blog-featured-card, .blog-card, .blog-topics'
+        );
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('blog-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+
+        revealEls.forEach((el, i) => {
+            el.style.transitionDelay = `${i * 0.08}s`;
+            observer.observe(el);
+        });
+    });
+</script>
+{% endblock %}

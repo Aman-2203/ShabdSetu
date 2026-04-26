@@ -1,0 +1,537 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }} — ShabdSetu Blog{% endblock %}
+{% block meta_description %}{{ post.excerpt }}{% endblock %}
+{% block meta_keywords %}{{ post.tags | join(', ') }}{% endblock %}
+{% block og_type %}article{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/blog.css') }}">
+{% endblock %}
+
+{% block content %}
+<article class="blog-article" id="blogArticle">
+
+    <!-- Back Link -->
+    <a href="/blog" class="blog-back-link" id="blogBackLink">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+        All Posts
+    </a>
+
+    <!-- Article Header -->
+    <header class="blog-article-header">
+        <div class="blog-article-meta-top">
+            <span class="blog-article-category {{ post.article_cat_class }}">{{ post.category }}</span>
+            <span class="blog-article-read-time">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                {{ post.read_time }}
+            </span>
+        </div>
+        <h1>{{ post.title }}</h1>
+        <p class="blog-article-author">By <strong>ShabdSetu Team</strong></p>
+    </header>
+
+    <!-- Article Body -->
+    <div class="blog-article-body">
+
+        {% if post.slug == 'digitize-old-hindi-gujarati-books' %}
+        <!-- ==================== BLOG 1: DIGITIZATION ==================== -->
+
+        <h2>The Problem Nobody Talks About</h2>
+        <p>You have a shelf full of old Hindi or Gujarati books. Maybe they're religious texts, family histories,
+            out-of-print novels, or decades-old magazines. They're yellowing, fragile, and exist nowhere digitally.</p>
+        <p>You know they need to be preserved. But when you actually sit down to do it — you realize the scale of the
+            problem.</p>
+        <p>Typing out even one chapter manually takes hours. A full book? Weeks. And that's before you even think about
+            proofreading, formatting, or translation.</p>
+        <p>Most people give up here. Or they hire someone to type it all out — which is expensive, slow, and still
+            requires heavy proofreading afterward.</p>
+        <p>There's a better way. And it doesn't involve typing a single word.</p>
+
+        <hr>
+
+        <h2>What Is Document Digitization, Really?</h2>
+        <p>Digitization just means converting a physical document into an editable digital format. But the end goal
+            isn't just a digital file — it's a <strong>usable</strong> digital file.</p>
+        <p>A photo of a book page sitting in your phone gallery is technically digital. But it's not searchable, not
+            editable, and not shareable in any meaningful way.</p>
+        <p>True digitization means:</p>
+        <ul>
+            <li>The text is extracted and readable</li>
+            <li>Errors are corrected</li>
+            <li>The content is formatted properly</li>
+            <li>It lives in a file someone can actually open and work with — like a Word document</li>
+        </ul>
+        <p>That last part is what most people miss when they start this process.</p>
+
+        <hr>
+
+        <h2>The Old Way vs The Smart Way</h2>
+        <p><strong>The old way</strong> looked like this:</p>
+        <ol>
+            <li>Scan each page with a flatbed scanner or phone camera</li>
+            <li>Run it through a basic OCR tool</li>
+            <li>Get back garbled, error-filled text</li>
+            <li>Spend hours manually fixing mistakes</li>
+            <li>Still end up with unformatted plain text</li>
+        </ol>
+        <p>If the book was in Hindi or Gujarati script, step 3 was even worse. Most generic OCR tools were built for
+            English. Regional language support was an afterthought — if it existed at all.</p>
+        <p><strong>The smart way</strong> is different. You still scan. But after that, AI handles the heavy lifting —
+            extracting the text, fixing errors, and delivering a clean formatted document you can actually use.</p>
+
+        <hr>
+
+        <h2>Step-by-Step: How to Digitize a Hindi or Gujarati Book Today</h2>
+
+        <h3>Step 1 — Scan Your Pages</h3>
+        <p>You don't need expensive equipment. A decent smartphone camera works fine for most printed books. Here's what
+            matters:</p>
+        <ul>
+            <li>Photograph in good natural light — avoid shadows falling across the page</li>
+            <li>Keep the camera parallel to the page, not at an angle</li>
+            <li>Make sure the full page is in frame with no cutoff edges</li>
+            <li>For fragile or bound books, a flatbed scanner gives cleaner results</li>
+        </ul>
+        <p>Compile all your page photos into a single PDF. Most phones can do this directly, or you can use a free app
+            like Adobe Scan or CamScanner.</p>
+
+        <h3>Step 2 — Choose What You Want as Output</h3>
+        <p>Before you upload anything, decide what you actually need:</p>
+        <ul>
+            <li><strong>Just the text extracted and cleaned?</strong> → OCR + Proofread</li>
+            <li><strong>Text extracted and translated to English?</strong> → OCR + Translate</li>
+            <li><strong>Already have a typed draft that needs fixing?</strong> → Proofread only</li>
+        </ul>
+        <p>Knowing this upfront saves you time and ensures you get exactly what you need.</p>
+
+        <h3>Step 3 — Upload and Process</h3>
+        <p>This is where a tool like ShabdSetu comes in. You upload your scanned PDF, select your processing mode, and
+            the AI gets to work — extracting the Hindi or Gujarati text, correcting recognition errors, and proofreading
+            the output for consistency and accuracy.</p>
+        <p>No manual correction. No fixing garbled characters. No spending an evening hunting for mistakes.</p>
+
+        <h3>Step 4 — Receive Your Word Document</h3>
+        <p>Within hours, you get back a clean, formatted .docx file in your inbox. Not raw text. Not a plain .txt file.
+            A proper Word document with consistent formatting — ready for a designer, editor, or publisher to work with
+            directly.</p>
+        <p>This is the step that changes everything for publishers and organizations doing this at scale. There's no
+            retyping phase. You go straight from scanned book to editable document.</p>
+
+        <h3>Step 5 — Review and Publish</h3>
+        <p>Do a final read-through. At this stage you're not fixing OCR errors — those are already handled. You're
+            reading it as an editor would, making creative or contextual decisions, not technical ones.</p>
+        <p>From here the document is ready for whatever comes next — ebook formatting, reprinting, translation,
+            archiving, or sharing.</p>
+
+        <hr>
+
+        <h2>What About Handwritten Text?</h2>
+        <p>Handwritten Hindi and Gujarati is harder — for any tool, not just AI. The accuracy depends heavily on how
+            consistent and clear the handwriting is.</p>
+        <p>For printed books and typed documents, accuracy is very high. For handwritten content, results vary. If you
+            have handwritten diaries or letters to digitize, it's worth testing with a sample page first before
+            committing to a full document.</p>
+
+        <hr>
+
+        <h2>How Long Does This Actually Take?</h2>
+        <p>Here's an honest breakdown for a 200-page Hindi book:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Task</th>
+                    <th>Old Way</th>
+                    <th>With ShabdSetu</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Scanning</td>
+                    <td>2-3 hours</td>
+                    <td>2-3 hours</td>
+                </tr>
+                <tr>
+                    <td>Text extraction</td>
+                    <td>4-6 hours</td>
+                    <td>Automatic</td>
+                </tr>
+                <tr>
+                    <td>Error correction</td>
+                    <td>6-10 hours</td>
+                    <td>Automatic</td>
+                </tr>
+                <tr>
+                    <td>Formatting</td>
+                    <td>2-4 hours</td>
+                    <td>Automatic</td>
+                </tr>
+                <tr>
+                    <td><strong>Total</strong></td>
+                    <td><strong>14-23 hours</strong></td>
+                    <td><strong>2-3 hours</strong></td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The scanning time stays the same — you still need to photograph or scan the pages. Everything after that is
+            handled automatically.</p>
+
+        <hr>
+
+        <h2>Who Is This Most Useful For?</h2>
+        <p><strong>Religious and cultural organizations</strong> — Trusts and institutions sitting on decades of
+            Gujarati pravachans, Hindi scriptures, and regional language texts that need to be preserved and shared with
+            younger generations, including those abroad who may not read the original script.</p>
+        <p><strong>Regional publishers</strong> — Small and mid-sized publishers with out-of-print Hindi or Gujarati
+            titles they want to re-release as ebooks or updated print editions without the cost of retyping.</p>
+        <p><strong>Families and individuals</strong> — People who've inherited handwritten letters, diaries, or
+            documents in Hindi or Gujarati and want to preserve them before they deteriorate further.</p>
+        <p><strong>Researchers and libraries</strong> — Academic institutions and libraries with regional language
+            archives that need to be made searchable and accessible.</p>
+
+        <hr>
+
+        <h2>A Note on Privacy</h2>
+        <p>If you're digitizing sensitive documents — legal records, family documents, religious texts — it's worth
+            understanding what happens to your files after processing. With ShabdSetu, uploaded files are deleted after
+            your document is delivered. Your content isn't stored, shared, or used for anything beyond processing your
+            specific request.</p>
+
+        <hr>
+
+        <h2>The Bottom Line</h2>
+        <p>Digitizing old Hindi and Gujarati books used to mean weeks of manual labor or expensive outsourcing. Today it
+            means scanning your pages, uploading a PDF, and receiving a clean Word document in your inbox.</p>
+        <p>The text is already out there — sitting in books on shelves, in filing cabinets, in storage boxes. Preserving
+            it doesn't have to be a massive project anymore.</p>
+        <p>If you have a document you've been meaning to digitize, <a href="/tool">try ShabdSetu with a free sample
+                page</a> and see the output quality before committing to a full document.</p>
+
+        <hr>
+
+        <p><em>Have a specific digitization project in mind? <a href="/contactus">Contact us</a> and we'll help you
+                figure out the best approach for your content.</em></p>
+
+
+        {% elif post.slug == 'hindi-gujarati-audio-transcription' %}
+        <!-- ==================== BLOG 2: AUDIO TRANSCRIPTION ==================== -->
+
+        <h2>It Always Starts the Same Way</h2>
+        <p>The recording went well. An hour of rich conversation — a scholar sharing decades of knowledge, a community
+            elder recounting history, a subject matter expert explaining something nobody has documented before. You
+            captured it all.</p>
+        <p>You plug in your headphones, open a blank document, and hit play.</p>
+        <p>Forty minutes later you've typed three paragraphs and paused the audio eleven times.</p>
+        <p>This is the part nobody warns you about. The recording is the easy part. What comes after — converting spoken
+            Hindi or Gujarati into a clean, usable document — is where hours disappear.</p>
+
+        <hr>
+
+        <h2>The Real Cost of Manual Transcription</h2>
+        <p>Most people underestimate how long transcription actually takes. A rough industry standard is that one hour
+            of audio takes four to six hours to transcribe manually. That's on a good day, with clear audio, in a
+            language you're completely comfortable typing in.</p>
+        <p>Now add Hindi or Gujarati to the equation.</p>
+        <p>Typing in Devanagari or Gujarati script is slower than typing in English for most people — especially if
+            you're switching between scripts mid-document. Regional dialects, colloquial phrases, and speaker accents
+            make it harder to catch every word accurately. And when the speaker talks fast, or two people overlap,
+            you're rewinding the same ten seconds five times.</p>
+        <p>A one-hour interview can easily eat up an entire workday. And at the end of it, you still have raw
+            unformatted text that needs editing before it's usable.</p>
+
+        <hr>
+
+        <h2>What Usually Happens Next</h2>
+        <p>Most people at this point do one of three things:</p>
+        <p><strong>They outsource it.</strong> Find a freelancer or agency to transcribe the audio. This costs money,
+            takes time, and introduces a privacy risk — you're handing over potentially sensitive conversations to a
+            third party. And you still get back raw text that needs formatting and editing.</p>
+        <p><strong>They use a generic transcription tool.</strong> Tools like Otter.ai or Google's speech-to-text work
+            reasonably well for English. For Hindi and Gujarati they struggle — especially with regional accents, mixed
+            language conversations, or older speakers who don't speak in clean broadcast-style Hindi. The output is
+            riddled with errors and still needs hours of manual correction.</p>
+        <p><strong>They just don't do it.</strong> The recording sits on a hard drive. The knowledge in it never gets
+            documented. This happens more than anyone likes to admit — especially with cultural and religious
+            organizations who have years of recorded pravachans and lectures that have never been transcribed because
+            the process felt too overwhelming.</p>
+
+        <hr>
+
+        <h2>The Specific Pain of Hindi and Gujarati Audio</h2>
+        <p>English transcription tools have had years of investment and training data behind them. Hindi and Gujarati
+            have not had the same attention — particularly for regional accents, older speakers, and subject-specific
+            vocabulary like religious terminology, legal language, or literary references.</p>
+        <p>Generic tools hear a Gujarati speaker and produce English phonetics. Or they produce Hindi text with so many
+            errors it's faster to retype from scratch than to correct what the tool gave you.</p>
+        <p>And even when the transcription is reasonably accurate — you still have raw text. No paragraphs. No
+            structure. No formatting. Just a wall of words that needs to be shaped into something a reader can actually
+            follow.</p>
+
+        <hr>
+
+        <h2>What the Process Should Actually Look Like</h2>
+        <p>Here's what converting audio to a publish-ready document should feel like — and now can feel like:</p>
+        <p><strong>You record your audio.</strong> Interview, lecture, pravacha, podcast episode, field research
+            recording — whatever it is.</p>
+        <p><strong>You upload the file.</strong> MP3, WAV, or most common audio formats work fine. No special equipment
+            needed.</p>
+        <p><strong>AI handles the transcription, cleanup and formatting.</strong> The speech is converted to text,
+            regional language errors are corrected, the content is structured into readable paragraphs, and the whole
+            thing is proofread for consistency.</p>
+        <p><strong>You receive a Word document.</strong> Not raw text. A properly formatted .docx file — with clean
+            paragraphs, consistent language, and a structure that's ready for an editor or designer to work with
+            directly.</p>
+        <p>The part that used to take four to six hours per hour of audio now takes a fraction of that time. And the
+            output you receive is actually usable — not a starting point for more manual work.</p>
+
+        <hr>
+
+        <h2>Who This Changes Everything For</h2>
+        <p><strong>Content creators and podcasters</strong> recording Hindi or Gujarati episodes who want written
+            versions for blogs, show notes, or social media without spending days transcribing.</p>
+        <p><strong>Religious and cultural organizations</strong> with years of recorded lectures, pravachans, and
+            discourses sitting on hard drives — never transcribed because the manual effort felt impossible at scale.
+        </p>
+        <p><strong>Researchers and academics</strong> conducting interviews in regional languages who need accurate
+            transcripts for analysis, publication, or archiving.</p>
+        <p><strong>Businesses and HR teams</strong> recording Hindi meetings, training sessions, or client conversations
+            that need to be documented formally.</p>
+        <p><strong>Families</strong> with recorded conversations of elderly relatives — in Gujarati or Hindi — that hold
+            irreplaceable oral history they want preserved in written form before the recordings degrade.</p>
+
+        <hr>
+
+        <h2>A Word on Accuracy</h2>
+        <p>No transcription tool — AI or human — is perfect. Accents, background noise, fast speech, and highly
+            specialized vocabulary all affect accuracy. What AI does better than manual transcription is handle the bulk
+            of the work consistently, so that your review time is a fraction of what it would be starting from scratch.
+        </p>
+        <p>With Hindi and Gujarati audio specifically, the difference between a tool trained on regional language data
+            versus a generic English-first tool is significant. The errors are fewer, the corrections are faster, and
+            the output is actually in the right script.</p>
+        <p>If you have a particularly challenging recording — heavy background noise, multiple speakers, strong dialect
+            — it's worth testing with a short sample first to see the output quality before processing the full file.
+        </p>
+
+        <hr>
+
+        <h2>The Recording Deserves to Be Read</h2>
+        <p>There's something worth saying here that goes beyond productivity.</p>
+        <p>A lot of Hindi and Gujarati audio content — interviews with scholars, recorded lectures, oral histories,
+            religious teachings — carries knowledge that exists nowhere else in written form. When that audio sits
+            untranscribed on a hard drive, that knowledge is effectively inaccessible. It can't be searched, shared,
+            quoted, published, or preserved.</p>
+        <p>Converting it to a clean written document isn't just a time-saving exercise. It's the difference between that
+            knowledge existing in the world in a usable form — or not.</p>
+
+        <hr>
+
+        <h2>The Bottom Line</h2>
+        <p>Manual transcription of Hindi and Gujarati audio is genuinely painful — slow, error-prone, and exhausting.
+            Generic tools don't handle regional languages well enough to be truly useful. And outsourcing introduces
+            cost, delay, and privacy concerns.</p>
+        <p>If you have audio that needs to become a document, <a href="/tool">try ShabdSetu with a sample recording</a>
+            and see what the output looks like before committing to a full file.</p>
+        <p>The recording is already done. The hard part doesn't have to be.</p>
+
+        <hr>
+
+        <p><em>Got a large batch of audio files to process? <a href="/contactus">Contact us</a> and we'll walk you
+                through the best approach for your specific content.</em></p>
+
+
+        {% elif post.slug == 'faithful-hindi-gujarati-translation' %}
+        <!-- ==================== BLOG 3: TRANSLATION ==================== -->
+
+        <h2>You Asked for a Translation. You Got Something Else.</h2>
+        <p>The document came back on time. The translator was professional. The language reads smoothly in English.</p>
+        <p>But something feels wrong.</p>
+        <p>You open the original Gujarati text alongside the translation and start comparing. A paragraph that took the
+            author twelve lines has been condensed into four. A phrase the author repeated deliberately — because
+            repetition was the point — appears only once. A specific Sanskrit term that carries centuries of
+            philosophical meaning has been replaced with a generic English word that means something adjacent but not
+            the same.</p>
+        <p>The translation is technically correct. But it isn't the author's document anymore.</p>
+        <p>This is one of the most common and least talked about problems in Hindi and Gujarati translation work — and
+            it affects publishers, religious organizations, academic institutions, and anyone who cares about what a
+            document actually says, not just what it approximately means.</p>
+
+        <hr>
+
+        <h2>The Problem With "Good Enough" Translation</h2>
+        <p>Most translators work under pressure. Deadlines are tight, word counts are long, and payment is often per
+            word or per page. In that environment, shortcuts happen — not always out of carelessness, but out of
+            necessity.</p>
+        <p>The result is translation that prioritizes readability over fidelity. The output reads well in English. It
+            flows naturally. A reader who doesn't know the original would never notice anything is missing.</p>
+        <p>But something is always missing.</p>
+
+        <hr>
+
+        <h2>What Actually Gets Lost</h2>
+
+        <h3>The Author's Voice and Rhythm</h3>
+        <p>Every writer has a rhythm. The way they structure sentences, the length of their paragraphs, the pace at
+            which they build an argument or tell a story — these are not accidents. They are choices that carry meaning.
+        </p>
+        <p>When a translator condenses, paraphrases, or restructures for the sake of readability, that rhythm
+            disappears. What you get back is the translator's voice dressed in the author's ideas. For literary works,
+            religious texts, or any document where the <em>how</em> matters as much as the <em>what</em> — this is a
+            significant loss.</p>
+        <p>A Hindi poet who uses a specific meter, a Gujarati novelist whose sentences deliberately mirror the speech
+            patterns of a particular community, a spiritual teacher whose words build slowly toward a single point of
+            realization — all of this lives in the structure of the language. Flatten the structure and you flatten the
+            meaning.</p>
+
+        <h3>Specific Religious and Cultural Terminology</h3>
+        <p>This is where translation errors move from unfortunate to genuinely problematic.</p>
+        <p>Hindi and Gujarati religious texts are full of terms that don't have direct English equivalents. Words like
+            <em>dharma</em>, <em>seva</em>, <em>bhakti</em>, <em>moksha</em>, <em>satsang</em> — these carry specific
+            theological weight that a generic English substitute simply cannot carry. Translating <em>bhakti</em> as
+            "devotion" is not wrong exactly, but it strips the word of its specific philosophical context within the
+            tradition it comes from.</p>
+        <p>For religious organizations translating scriptures, pravachans, or devotional texts, getting this terminology
+            wrong isn't just a quality issue. It's a matter of preserving the integrity of the teaching itself. A
+            community that has understood a particular concept through a specific Sanskrit or Gujarati term for
+            generations cannot simply have that term swapped out for a convenient English approximation.</p>
+        <p>A translator unfamiliar with the specific tradition, sect, or school of thought being translated will make
+            these substitutions instinctively — not out of malice, but out of genuine unfamiliarity with the nuance
+            involved.</p>
+
+        <h3>Context That Only an Insider Would Catch</h3>
+        <p>Hindi and Gujarati texts — particularly older ones — are full of cultural references, regional idioms,
+            historical allusions, and community-specific expressions that require more than language knowledge to
+            translate accurately. They require cultural knowledge.</p>
+        <p>A reference to a specific festival practice. A proverb that only makes sense within a particular regional
+            context. A metaphor drawn from an agricultural or craft tradition that no longer exists in urban life. These
+            things require a translator who understands not just the language but the world the text was written in.</p>
+        <p>When that context is missing, translators do one of two things — they either translate literally, producing
+            something that makes no sense to an English reader, or they skip it entirely, producing something that is
+            readable but incomplete.</p>
+
+        <h3>The Cuts Nobody Tells You About</h3>
+        <p>Perhaps the most frustrating thing about receiving a translation that has been shortened is that you often
+            don't know what's missing unless you read both versions side by side.</p>
+        <p>A translator under time pressure will cut what they consider repetitive, obvious, or tangential. But what
+            feels repetitive to a translator may be deliberate emphasis to the author. What feels tangential may be
+            foundational context that a reader in the original language would already carry and an English reader needs
+            to be given.</p>
+        <p>When content is cut without disclosure, you don't just lose words. You lose the author's intent — and you
+            receive a document that misrepresents the original in ways that may not be immediately visible.</p>
+
+        <hr>
+
+        <h2>Why This Matters More Than People Realize</h2>
+        <p>For a publisher releasing an English edition of a Hindi novel, a poor translation can permanently damage how
+            that author is perceived in a new market. Readers who encounter a flat, voice-stripped translation will
+            assume the original is flat — and that reputation sticks.</p>
+        <p>For a religious organization publishing translated scriptures or teachings, inaccurate terminology can create
+            genuine theological confusion — or worse, conflict — within a community that takes the precision of its
+            texts seriously.</p>
+        <p>For a researcher publishing translated source material, cuts and paraphrases introduce inaccuracies into the
+            academic record that can propagate through citations for years.</p>
+        <p>In all these cases, the stakes of getting the translation right go far beyond the document itself.</p>
+
+        <hr>
+
+        <h2>What Good Translation Actually Looks Like</h2>
+        <p>A faithful translation is not a literal word-for-word conversion — that produces its own kind of unreadable
+            output. But it is one that:</p>
+        <ul>
+            <li>Preserves the full content without unauthorized cuts or condensing</li>
+            <li>Maintains the author's tone, register, and rhythm as closely as the target language allows</li>
+            <li>Uses the correct terminology for the specific religious, cultural, or academic tradition involved</li>
+            <li>Flags terms that have no direct equivalent rather than substituting silently</li>
+            <li>Treats the original as authoritative and the translation as a faithful representation — not an
+                improvement or simplification</li>
+        </ul>
+        <p>This requires not just language skill but subject matter knowledge, cultural familiarity, and genuine respect
+            for the source material.</p>
+
+        <hr>
+
+        <h2>Where ShabdSetu Fits In</h2>
+        <p>ShabdSetu's translation pipeline is built specifically for Hindi and Gujarati documents — with attention to
+            the kind of terminology, structure, and context that generic translation tools and rushed human translators
+            routinely miss.</p>
+        <p>The output isn't just translated text. It's a properly formatted Word document that preserves the structure
+            of the original, maintains consistency in terminology throughout, and delivers something a publisher,
+            religious organization, or researcher can actually work with — without spending additional hours correcting
+            what came back.</p>
+        <p>It won't replace a deeply specialized human expert for the most complex theological or literary work. But for
+            the vast majority of Hindi and Gujarati documents that need faithful, accurate, well-formatted translation —
+            it delivers something most translators under deadline pressure simply don't.</p>
+        <p>If you have a document that deserves better than a rushed approximation, <a href="/tool">try ShabdSetu with a
+                sample page</a> and see the difference in output quality.</p>
+
+        <hr>
+
+        <h2>The Bottom Line</h2>
+        <p>A translation that cuts content, flattens voice, misuses religious terminology, and drops cultural context
+            isn't really a translation. It's a summary in another language.</p>
+        <p>Your author spent years — sometimes a lifetime — finding exactly the right words. They deserve a translation
+            that takes that seriously.</p>
+
+        <hr>
+
+        <p><em>Working on a large translation project or a text with complex religious or cultural terminology? <a
+                    href="/contactus">Contact us</a> and we'll help you figure out the right approach.</em></p>
+
+        {% endif %}
+    </div>
+
+    <!-- Tags -->
+    <div class="blog-article-tags">
+        {% for tag in post.tags %}
+        <span class="blog-article-tag">{{ tag }}</span>
+        {% endfor %}
+    </div>
+
+    <!-- Read More -->
+    <div class="blog-read-more">
+        <h3>Read More</h3>
+        <div class="blog-read-more-grid">
+            {% for other in related_posts %}
+            <a href="/blog/{{ other.slug }}" class="blog-read-more-card" id="readMore{{ loop.index }}">
+                <span class="blog-read-more-card-cat">{{ other.category }}</span>
+                <h4>{{ other.title }}</h4>
+                <span class="blog-read-more-card-time">{{ other.read_time }}</span>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+
+</article>
+
+<!-- SEO: BlogPosting Structured Data -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "{{ post.title }}",
+    "description": "{{ post.excerpt }}",
+    "url": "https://shabdsetu.in/blog/{{ post.slug }}",
+    "author": {
+        "@type": "Organization",
+        "name": "ShabdSetu",
+        "url": "https://shabdsetu.in"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "ShabdSetu",
+        "url": "https://shabdsetu.in",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://shabdsetu.in/static/favicon.svg"
+        }
+    },
+    "keywords": "{{ post.tags | join(', ') }}",
+    "articleSection": "{{ post.category }}"
+}
+</script>
+{% endblock %}
