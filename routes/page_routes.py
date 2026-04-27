@@ -164,13 +164,6 @@ Allow: /contactus
 Allow: /blog
 Disallow: /tool
 Disallow: /login
-Disallow: /send-otp
-Disallow: /verify-otp
-Disallow: /process
-Disallow: /progress/
-Disallow: /download/
-Disallow: /mode/
-Disallow: /gurudev
 
 Sitemap: {base_url}/sitemap.xml
 """.format(base_url=request.url_root.rstrip('/'))
