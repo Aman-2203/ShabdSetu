@@ -61,9 +61,16 @@ def process_file():
         if not file:
             return jsonify({'error': 'No file uploaded'}), 400
         
-        # Get file extension
+        # Get file extension from ORIGINAL filename first (before secure_filename
+        # can strip it — e.g. Hindi/Unicode filenames lose their extension)
+        original_ext = os.path.splitext(file.filename)[1].lower().strip('.') if file.filename else ''
         filename = secure_filename(file.filename)
-        file_extension = os.path.splitext(filename)[1].lower().strip('.')
+        # If secure_filename produced an empty name or lost the extension, rebuild it
+        if not filename:
+            filename = f"upload_{uuid.uuid4().hex[:8]}.{original_ext}"
+        elif not os.path.splitext(filename)[1]:
+            filename = f"{filename}.{original_ext}"
+        file_extension = original_ext
 
         # Validate audio file for mode 6
         if mode == 6:
